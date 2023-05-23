@@ -19,7 +19,7 @@ public class AmigoDAO {
 
     public Connection getConexao() {
 
-        Connection connection = null;  //inst�ncia da conex�o
+        Connection connection = null;  //instancia da conex�o
 
         try {
 
@@ -27,9 +27,9 @@ public class AmigoDAO {
             String driver = "com.mysql.cj.jdbc.Driver";
             Class.forName(driver);
 
-            // Configurar a conex�o
+            // Configurar a conexao
             String server = "localhost"; //caminho do MySQL
-            String database = "db_toolhost";
+            String database = "ToolHost";
             String url = "jdbc:mysql://" + server + ":3306/" + database + "?useTimezone=true&serverTimezone=UTC";
             String user = "root";
             String password = "banco";
