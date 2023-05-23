@@ -19,7 +19,7 @@ public class AmigoDAO {
 
     public Connection getConexao() {
 
-        Connection connection = null;  //instancia da conex�o
+        Connection connection = null;  //instância da conexão
 
         try {
 
@@ -27,7 +27,7 @@ public class AmigoDAO {
             String driver = "com.mysql.cj.jdbc.Driver";
             Class.forName(driver);
 
-            // Configurar a conexao
+            // Configurar a conex�o
             String server = "localhost"; //caminho do MySQL
             String database = "ToolHost";
             String url = "jdbc:mysql://" + server + ":3306/" + database + "?useTimezone=true&serverTimezone=UTC";
@@ -55,7 +55,7 @@ public class AmigoDAO {
         }
     }
 
-    // Retorna a Lista de Alunos(objetos)
+    // Retorna todos os amigos
     public ArrayList getMinhaLista() {
         
         MinhaLista.clear(); // Limpa nosso ArrayList
@@ -65,12 +65,12 @@ public class AmigoDAO {
             ResultSet res = stmt.executeQuery("SELECT * FROM tb_amigos");
             while (res.next()) {
 
-                //int id = res.getInt("id");
+                int id = res.getInt("id");
                 String nome = res.getString("nome");
                 long telefone = res.getLong("telefone");
                 int quantEmprest = res.getInt("qtd_emprestimos");
 
-                Amigo objeto = new Amigo(nome, telefone, quantEmprest);
+                Amigo objeto = new Amigo(id, nome, telefone, quantEmprest);
 
                 MinhaLista.add(objeto);
             }
@@ -83,17 +83,16 @@ public class AmigoDAO {
         return MinhaLista;
     }
 
-    // Cadastra novo aluno
+    // Cadastra novo amigo
     public boolean InsertAmigoBD(Amigo objeto) {
-        String sql = "INSERT INTO tb_amigos(nome,telefone,qtd_emprestimos) VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO tb_amigos(nome,telefone,qtd_emprestimos) VALUES(?,?,?)";
 
         try {
             PreparedStatement stmt = this.getConexao().prepareStatement(sql);
 
-            //stmt.setInt(1, objeto.getId());
-            stmt.setString(2, objeto.getNome());
-            stmt.setLong(3, objeto.getTelefone());
-            stmt.setInt(4, objeto.getQuantEmprest());
+            stmt.setString(1, objeto.getNome());
+            stmt.setLong(2, objeto.getTelefone());
+            stmt.setInt(3, objeto.getQuantEmprest());
 
             stmt.execute();
             stmt.close();
@@ -106,7 +105,7 @@ public class AmigoDAO {
 
     }
 
-    // Deleta um aluno espec�fico pelo seu campo ID
+    // Deleta um amigo pelo seu ID
     public boolean DeleteAmigoBD(int id) {
         try {
             Statement stmt = this.getConexao().createStatement();
@@ -119,17 +118,18 @@ public class AmigoDAO {
         return true;
     }
 
-    // Edita um aluno espec�fico pelo seu campo ID
+    // Edita as informações de um amigo pelo seu ID
     public boolean UpdateAmigoBD(Amigo objeto) {
 
-        String sql = "UPDATE tb_amigos set nome = ? ,telefone = ? ,qtd_emprestimos = ? WHERE id = ?";
+        String sql = "UPDATE tb_amigos SET nome = ? ,telefone = ? ,qtd_emprestimos = ? WHERE id = ?";
 
         try {
             PreparedStatement stmt = this.getConexao().prepareStatement(sql);
-
-            stmt.setString(2, objeto.getNome());
-            stmt.setLong(3, objeto.getTelefone());
-            stmt.setInt(4, objeto.getQuantEmprest());
+            
+            stmt.setString(1, objeto.getNome());
+            stmt.setLong(2, objeto.getTelefone());
+            stmt.setInt(3, objeto.getQuantEmprest());
+            stmt.setInt(4, objeto.getId());
 
             stmt.execute();
             stmt.close();
