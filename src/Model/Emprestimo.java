@@ -1,0 +1,76 @@
+
+package Model;
+
+import java.sql.Date;
+
+public class Emprestimo {
+    
+    private int id;
+    private Amigo amigo;
+    private Ferramenta ferramenta;
+    private Date dataEmprestimo;
+    private Date dataDevolucao;
+    private boolean status;
+
+    public Emprestimo() {
+    }
+
+    public Emprestimo(int id, Amigo amigo, Ferramenta ferramenta, Date dataEmprestimo, Date dataDevolucao, boolean status) {
+        this.id = id;
+        this.amigo = amigo;
+        this.ferramenta = ferramenta;
+        this.dataEmprestimo = dataEmprestimo;
+        this.dataDevolucao = dataDevolucao;
+        this.status = status;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Amigo getAmigo() {
+        return amigo;
+    }
+
+    public void setAmigo(Amigo amigo) {
+        this.amigo = amigo;
+    }
+
+    public Ferramenta getFerramenta() {
+        return ferramenta;
+    }
+
+    public void setFerramenta(Ferramenta ferramenta) {
+        this.ferramenta = ferramenta;
+    }
+
+    public Date getDataEmprestimo() {
+        return dataEmprestimo;
+    }
+
+    public void setDataEmprestimo(Date dataEmprestimo) {
+        this.dataEmprestimo = dataEmprestimo;
+    }
+
+    public Date getDataDevolucao() {
+        return dataDevolucao;
+    }
+
+    public void setDataDevolucao(Date dataDevolucao) {
+        this.dataDevolucao = dataDevolucao;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+    
+    
+}
