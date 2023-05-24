@@ -1,5 +1,6 @@
 package View;
 
+import DAO.AmigoDAO;
 import Model.Amigo;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -8,11 +9,11 @@ import javax.swing.JOptionPane;
 
 public class TelaAmigos extends javax.swing.JFrame {
     
-    private Amigo objamigo; // cria o vinculo com o Amigo.java
+    private AmigoDAO amigoDAO; // cria o vinculo com o Amigo.java
 
     public TelaAmigos() {
         initComponents();
-         this.objamigo = new Amigo(); // carrega objeto vazio de amigo
+         this.amigoDAO = new AmigoDAO(); // carrega DAO de Amigo.java
     }
     
     @SuppressWarnings("unchecked")
@@ -158,7 +159,7 @@ public class TelaAmigos extends javax.swing.JFrame {
             }
             
             // envia os dados para o Controlador cadastrar
-            if (this.objamigo.InsertAmigoBD(nome, telefone, quantEmprest)) {
+            if (this.amigoDAO.InsertAmigoBD(new Amigo(nome, telefone, quantEmprest))) {
                 JOptionPane.showMessageDialog(rootPane, "Aluno Cadastrado com Sucesso!");
 
                 // limpa campos da interface
@@ -166,7 +167,7 @@ public class TelaAmigos extends javax.swing.JFrame {
                 this.campoTelefone.setText("");
             }
 
-            System.out.println(this.objamigo.getMinhaLista().toString());
+            System.out.println(this.amigoDAO.getMinhaLista().toString());
 
         } catch (Mensagens erro) {
             JOptionPane.showMessageDialog(null, erro.getMessage());
