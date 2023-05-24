@@ -107,7 +107,7 @@ public class AmigoDAO {
     public boolean DeleteAmigoBD(int id) {
         try {
             Statement stmt = this.getConexao().createStatement();
-            stmt.executeUpdate("DELETE FROM tb_amigos WHERE id = " + id);
+            stmt.executeUpdate("DELETE FROM tb_amigos WHERE id_amigo = " + id);
             stmt.close();            
             
         } catch (SQLException erro) {
@@ -147,7 +147,7 @@ public class AmigoDAO {
         
         try {
             Statement stmt = this.getConexao().createStatement();
-            ResultSet res = stmt.executeQuery("SELECT * FROM tb_amigos WHERE id = " + id);
+            ResultSet res = stmt.executeQuery("SELECT * FROM tb_amigos WHERE id_amigo = " + id);
             res.next();
 
             objeto.setNome(res.getString("nome"));
