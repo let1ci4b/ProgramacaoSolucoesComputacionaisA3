@@ -36,9 +36,9 @@ public class AmigoDAO {
 
             // Testando..
             if (connection != null) {
-                System.out.println("\u001B[32mStatus: Conectado!");
+                System.out.println("\u001B[32mStatus: Conectado!\u001B[0m");
             } else {
-                System.out.println("\u001B[31mStatus: NAO CONECTADO!");
+                System.out.println("\u001B[31mStatus: NAO CONECTADO!\u001B[0m");
             }
 
             return connection;
@@ -110,10 +110,11 @@ public class AmigoDAO {
             stmt.executeUpdate("DELETE FROM tb_amigos WHERE id_amigo = " + id);
             stmt.close();            
             
+            return true;
+            
         } catch (SQLException erro) {
+            throw new RuntimeException(erro);
         }
-        
-        return true;
     }
 
     // Edita as informações de um amigo pelo seu ID
