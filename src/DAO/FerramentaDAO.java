@@ -102,7 +102,7 @@ public class FerramentaDAO {
     public boolean DeleteFerramentaBD(int id) {
         try {
             Statement stmt = this.getConexao().createStatement();
-            stmt.executeUpdate("DELETE FROM tb_ferramentas WHERE id = " + id);
+            stmt.executeUpdate("DELETE FROM tb_ferramentas WHERE id_ferramenta = " + id);
             stmt.close();            
             
         } catch (SQLException erro) {
@@ -115,7 +115,7 @@ public class FerramentaDAO {
     // Edita uma ferramenta específica
     public boolean UpdateFerramentaBD(Ferramenta objeto) {
 
-        String sql = "UPDATE tb_ferramentas SET nome = ? ,marca = ? ,custo_aquisicao = ? WHERE id = ?";
+        String sql = "UPDATE tb_ferramentas SET nome = ? ,marca = ? ,custo_aquisicao = ? WHERE id_ferramenta = ?";
 
         try {
             PreparedStatement stmt = this.getConexao().prepareStatement(sql);
@@ -143,7 +143,7 @@ public class FerramentaDAO {
         
         try {
             Statement stmt = this.getConexao().createStatement();
-            ResultSet res = stmt.executeQuery("SELECT * FROM tb_ferramentas WHERE id = " + id);
+            ResultSet res = stmt.executeQuery("SELECT * FROM tb_ferramentas WHERE id_ferramenta = " + id);
             res.next();
 
             objeto.setNome(res.getString("nome"));
