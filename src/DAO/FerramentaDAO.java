@@ -78,7 +78,7 @@ public class FerramentaDAO {
         return MinhaLista;
     }
 
-    public boolean InsertFerramentaBD(Ferramenta objeto) {
+    public boolean InsertFerramentaBD(Ferramenta objeto) throws SQLException{
         String sql = "INSERT INTO tb_ferramentas(nome,marca,custo_aquisicao) VALUES(?,?,?)";
 
         try {
