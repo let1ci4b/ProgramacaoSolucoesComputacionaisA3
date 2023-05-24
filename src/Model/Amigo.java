@@ -17,6 +17,12 @@ public class Amigo {
         this.quantEmprest = quantEmprest;
     }
 
+    public Amigo(int id, String nome, long telefone) { // construtor para alteraçoes
+        this.id = id;
+        this.nome = nome;
+        this.telefone = telefone;
+    }
+
     public Amigo(int id, String nome, long telefone, int quantEmprest) { // construtor para selectAll
         this.id = id;
         this.nome = nome;
