@@ -12,10 +12,8 @@ import java.sql.Statement;
 
 
 public class AmigoDAO {
+    
      public static ArrayList<Amigo> MinhaLista = new ArrayList<Amigo>();
-
-    public AmigoDAO() {
-    }
 
     public Connection getConexao() {
 

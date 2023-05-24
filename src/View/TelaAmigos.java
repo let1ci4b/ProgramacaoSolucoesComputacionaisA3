@@ -13,7 +13,7 @@ public class TelaAmigos extends javax.swing.JFrame {
 
     public TelaAmigos() {
         initComponents();
-         this.amigoDAO = new AmigoDAO(); // carrega DAO de Amigo.java
+        this.amigoDAO = new AmigoDAO(); // carrega DAO de Amigo.java
     }
     
     @SuppressWarnings("unchecked")
@@ -160,7 +160,7 @@ public class TelaAmigos extends javax.swing.JFrame {
             
             // envia os dados para o Controlador cadastrar
             if (this.amigoDAO.InsertAmigoBD(new Amigo(nome, telefone, quantEmprest))) {
-                JOptionPane.showMessageDialog(rootPane, "Aluno Cadastrado com Sucesso!");
+                JOptionPane.showMessageDialog(rootPane, "Amigo Cadastrado com sucesso!");
 
                 // limpa campos da interface
                 this.campoNome.setText("");
@@ -172,7 +172,7 @@ public class TelaAmigos extends javax.swing.JFrame {
         } catch (Mensagens erro) {
             JOptionPane.showMessageDialog(null, erro.getMessage());
         } catch (NumberFormatException erro2) {
-            JOptionPane.showMessageDialog(null, "Informe um n�mero.");
+            JOptionPane.showMessageDialog(null, "Informe um número.");
         } catch (SQLException ex) {
             Logger.getLogger(TelaAmigos.class.getName()).log(Level.SEVERE, null, ex);
         }

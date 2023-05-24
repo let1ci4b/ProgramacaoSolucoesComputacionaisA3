@@ -2,6 +2,7 @@
 package Model;
 
 import DAO.AmigoDAO;
+import java.util.ArrayList;
 
 public class Amigo {
     
@@ -29,8 +30,6 @@ public class Amigo {
         this.quantEmprest = quantEmprest;
         this.dao = new AmigoDAO(); // inicializado nao importa em qual construtor
     }
-
-    
 
     public int getId() {
         return id;
