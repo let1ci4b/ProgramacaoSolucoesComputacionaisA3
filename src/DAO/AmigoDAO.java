@@ -119,7 +119,7 @@ public class AmigoDAO {
     // Edita as informações de um amigo pelo seu ID
     public boolean UpdateAmigoBD(Amigo objeto) {
 
-        String sql = "UPDATE tb_amigos SET nome = ? ,telefone = ? ,qtd_emprestimos = ? WHERE id_amigo = ?";
+        String sql = "UPDATE tb_amigos SET nome = ? ,telefone = ? WHERE id_amigo = ?";
 
         try {
             PreparedStatement stmt = this.getConexao().prepareStatement(sql);
@@ -127,7 +127,6 @@ public class AmigoDAO {
             stmt.setString(1, objeto.getNome());
             stmt.setLong(2, objeto.getTelefone());
             stmt.setInt(3, objeto.getQuantEmprest());
-            stmt.setInt(4, objeto.getId());
 
             stmt.execute();
             stmt.close();
