@@ -49,7 +49,7 @@ public class TelaAmigos extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Amigos");
 
         jLabel1.setText("Nome:");
@@ -98,7 +98,7 @@ public class TelaAmigos extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                             .addGap(140, 140, 140)
@@ -156,7 +156,6 @@ public class TelaAmigos extends javax.swing.JFrame {
             int id = 0;
             String nome = "";
             long telefone =  0;
-            int quantEmprest = 0;
             
             if (this.campoNome.getText().length() < 2) {
                 throw new Mensagens("Nome deve conter ao menos 2 caracteres.");
@@ -177,7 +176,7 @@ public class TelaAmigos extends javax.swing.JFrame {
             }
 
             // envia os dados para o Amigo processar
-            if (this.amigoDAO.UpdateAmigoBD(new Amigo(nome, telefone, quantEmprest))) {
+            if (this.amigoDAO.UpdateAmigoBD(new Amigo(id, nome, telefone))) {
 
                 // limpa os campos
                 this.campoNome.setText("");
