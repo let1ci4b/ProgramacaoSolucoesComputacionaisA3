@@ -84,7 +84,7 @@ public class AmigoDAO {
     }
 
     // Cadastra novo amigo
-    public boolean InsertAmigoBD(Amigo objeto) {
+    public boolean InsertAmigoBD(Amigo objeto) throws SQLException {
         String sql = "INSERT INTO tb_amigos(nome,telefone,qtd_emprestimos) VALUES(?,?,?)";
 
         try {
