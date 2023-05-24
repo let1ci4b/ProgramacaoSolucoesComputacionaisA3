@@ -36,9 +36,9 @@ public class AmigoDAO {
 
             // Testando..
             if (connection != null) {
-                System.out.println("Status: Conectado!");
+                System.out.println("\u001B[32mStatus: Conectado!");
             } else {
-                System.out.println("Status: NAO CONECTADO!");
+                System.out.println("\u001B[31mStatus: NAO CONECTADO!");
             }
 
             return connection;
@@ -126,7 +126,7 @@ public class AmigoDAO {
             
             stmt.setString(1, objeto.getNome());
             stmt.setLong(2, objeto.getTelefone());
-            stmt.setInt(3, objeto.getQuantEmprest());
+            stmt.setInt(3, objeto.getId());
 
             stmt.execute();
             stmt.close();
