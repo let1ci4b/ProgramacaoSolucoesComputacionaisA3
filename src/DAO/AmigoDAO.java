@@ -63,7 +63,7 @@ public class AmigoDAO {
             ResultSet res = stmt.executeQuery("SELECT * FROM tb_amigos");
             while (res.next()) {
 
-                int id = res.getInt("id");
+                int id = res.getInt("id_amigo");
                 String nome = res.getString("nome");
                 long telefone = res.getLong("telefone");
                 int quantEmprest = res.getInt("qtd_emprestimos");
@@ -119,7 +119,7 @@ public class AmigoDAO {
     // Edita as informações de um amigo pelo seu ID
     public boolean UpdateAmigoBD(Amigo objeto) {
 
-        String sql = "UPDATE tb_amigos SET nome = ? ,telefone = ? ,qtd_emprestimos = ? WHERE id = ?";
+        String sql = "UPDATE tb_amigos SET nome = ? ,telefone = ? ,qtd_emprestimos = ? WHERE id_amigo = ?";
 
         try {
             PreparedStatement stmt = this.getConexao().prepareStatement(sql);
