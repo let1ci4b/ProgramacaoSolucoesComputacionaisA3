@@ -1,26 +1,20 @@
 
 package Model;
 
-import DAO.AmigoDAO;
-import java.util.ArrayList;
-
 public class Amigo {
     
     private int id;
     private String nome;
     private long telefone;
     private int quantEmprest;
-    private final AmigoDAO dao; 
 
     public Amigo() {
-         this.dao = new AmigoDAO(); // inicializado nao importa em qual construtor
     }
     
     public Amigo(String nome, long telefone, int quantEmprest) { // construtor sem id (auto-increment)
         this.nome = nome;
         this.telefone = telefone;
         this.quantEmprest = quantEmprest;
-        this.dao = new AmigoDAO(); // inicializado nao importa em qual construtor
     }
 
     public Amigo(int id, String nome, long telefone, int quantEmprest) { // construtor para selectAll
@@ -28,7 +22,6 @@ public class Amigo {
         this.nome = nome;
         this.telefone = telefone;
         this.quantEmprest = quantEmprest;
-        this.dao = new AmigoDAO(); // inicializado nao importa em qual construtor
     }
 
     public int getId() {
