@@ -7,6 +7,7 @@ import Model.Ferramenta;
 import java.util.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -83,6 +84,29 @@ public class EmprestimoDAO {
         }
         
         return MinhaLista;
+    }
+    
+    // Cadastra novo amigo
+    public boolean InsertEmprestimoBD(Emprestimo objeto) throws SQLException {
+        String sql = "INSERT INTO tb_emprestimos(fk_amigo,fk_ferramenta,data_emprestimo,data_devolucao) VALUES(?,?,?,?)";
+
+        try {
+            PreparedStatement stmt = this.getConexao().prepareStatement(sql);
+
+            stmt.setInt(1, objeto.getAmigo().getId());
+            stmt.setInt(2, objeto.getFerramenta().getId());
+            stmt.setDate(3, objeto.getDataEmprestimo());
+            stmt.setDate(4, objeto.getDataDevolucao());
+
+            stmt.execute();
+            stmt.close();
+
+            return true;
+
+        } catch (SQLException erro) {
+            throw new RuntimeException(erro);
+        }
+
     }
 
 }
