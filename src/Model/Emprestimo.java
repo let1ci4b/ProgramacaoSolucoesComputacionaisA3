@@ -24,6 +24,14 @@ public class Emprestimo {
         this.status = status;
     }
 
+    public Emprestimo(Amigo amigo, Ferramenta ferramenta, Date dataEmprestimo, Date dataDevolucao) { // constructor para cadastro
+        this.amigo = amigo;
+        this.ferramenta = ferramenta;
+        this.dataEmprestimo = dataEmprestimo;
+        this.dataDevolucao = dataDevolucao;
+        this.status = (dataDevolucao != null);
+    }
+
     public int getId() {
         return id;
     }
