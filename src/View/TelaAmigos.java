@@ -71,6 +71,11 @@ public class TelaAmigos extends javax.swing.JFrame {
         });
 
         btnExclui.setText("EXCLUIR");
+        btnExclui.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluiActionPerformed(evt);
+            }
+        });
 
         tableAmigo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -170,7 +175,7 @@ public class TelaAmigos extends javax.swing.JFrame {
             }
 
             if (this.tableAmigo.getSelectedRow() == -1) {
-                throw new Mensagens("Primeiro Selecione um Aluno para Alterar");
+                throw new Mensagens("Primeiro Selecione um Amigo para Alterar");
             } else {
                 id = Integer.parseInt(this.tableAmigo.getValueAt(this.tableAmigo.getSelectedRow(), 0).toString());
             }
@@ -240,13 +245,35 @@ public class TelaAmigos extends javax.swing.JFrame {
         carregaTabela();
     }//GEN-LAST:event_btnAtualizarActionPerformed
 
+    private void btnExcluiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluiActionPerformed
+        
+        try {
+            int id = 0;
+            
+            if(this.tableAmigo.getSelectedRow() == -1) {
+                throw new Mensagens("Primeiro Selecione um Amigo para Remover");
+            } else {
+                id = Integer.parseInt(this.tableAmigo.getValueAt(this.tableAmigo.getSelectedRow(), 0).toString());
+            }
+            
+            int resposta = JOptionPane.showConfirmDialog(rootPane, "Tem certeza que deseja remover este amigo?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            
+            if(resposta == JOptionPane.YES_OPTION && this.amigoDAO.DeleteAmigoBD(id)) {
+                JOptionPane.showMessageDialog(rootPane, "Amigo Removido com sucesso!");
+            }
+        } catch (Mensagens erro) {
+            JOptionPane.showMessageDialog(null, erro.getMessage());
+        } finally {
+            carregaTabela();
+        }
+    }//GEN-LAST:event_btnExcluiActionPerformed
+
     public void carregaTabela() { // listando os objetos amigo na tabela
 
         DefaultTableModel modelo = (DefaultTableModel) this.tableAmigo.getModel();
         modelo.setNumRows(0);
 
-        ArrayList<Amigo> minhalista = new ArrayList<>();
-        minhalista = amigoDAO.getMinhaLista();
+        ArrayList<Amigo> minhalista = amigoDAO.getMinhaLista();
 
         for (Amigo a : minhalista) {
             modelo.addRow(new Object[]{
