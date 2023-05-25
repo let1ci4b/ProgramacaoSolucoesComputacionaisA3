@@ -3,9 +3,11 @@ package View;
 import DAO.FerramentaDAO;
 import Model.Ferramenta;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class TelaFerramentas extends javax.swing.JFrame {
     
@@ -14,6 +16,7 @@ public class TelaFerramentas extends javax.swing.JFrame {
     public TelaFerramentas() {
         initComponents();
         this.ferramentaDAO = new FerramentaDAO(); // carrega DAO de Ferramenta.java
+        carregaTabela();
     }
 
     @SuppressWarnings("unchecked")
@@ -33,7 +36,7 @@ public class TelaFerramentas extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         campoCustoTotal = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabelFerramentas = new javax.swing.JTable();
+        tableFerramenta = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Ferramentas");
@@ -52,8 +55,18 @@ public class TelaFerramentas extends javax.swing.JFrame {
         });
 
         btnEditar.setText("EDITAR");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnExcluir.setText("EXCLUIR");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Gasto total com ferramentas:");
@@ -82,7 +95,7 @@ public class TelaFerramentas extends javax.swing.JFrame {
                 .addContainerGap(52, Short.MAX_VALUE))
         );
 
-        tabelFerramentas.setModel(new javax.swing.table.DefaultTableModel(
+        tableFerramenta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -93,7 +106,7 @@ public class TelaFerramentas extends javax.swing.JFrame {
                 "ID", "Nome:", "Marca:", "Custo:"
             }
         ));
-        jScrollPane1.setViewportView(tabelFerramentas);
+        jScrollPane1.setViewportView(tableFerramenta);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -206,9 +219,107 @@ public class TelaFerramentas extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Informe um número.");
         } catch (SQLException ex) {
             Logger.getLogger(TelaFerramentas.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            carregaTabela(); // atualiza a tabela.
         }
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+          
+        try {
+            int id = 0;
+            
+            if(this.tableFerramenta.getSelectedRow() == -1) {
+                throw new Mensagens("Primeiro Selecione uma ferramenta para remover");
+            } else {
+                id = Integer.parseInt(this.tableFerramenta.getValueAt(this.tableFerramenta.getSelectedRow(), 0).toString());
+            }
+            
+            int resposta = JOptionPane.showConfirmDialog(rootPane, "Tem certeza que deseja remover esta ferramenta?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            
+            if(resposta == JOptionPane.YES_OPTION && this.ferramentaDAO.DeleteFerramentaBD(id)) {
+                JOptionPane.showMessageDialog(rootPane, "Ferramenta removida com sucesso!");
+            }
+        } catch (Mensagens erro) {
+            JOptionPane.showMessageDialog(null, erro.getMessage());
+        } finally {
+            carregaTabela();
+        }
+        
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        
+        try {
+            // recebendo e validando dados da interface grafica.
+        
+            int id = 0;
+            String nome = "";
+            String marca = "";
+            double custoAquisicao = 0;
+            
+            if (this.campoNome.getText().length() < 2) {
+                throw new Mensagens("Nome deve conter ao menos 2 caracteres.");
+            } else {
+                nome = this.campoNome.getText();
+            }
+
+            if (this.campoMarca.getText().length() < 2) {
+                throw new Mensagens("Marca deve conter ao menos 2 caracteres.");
+            } else {
+                marca = (this.campoMarca.getText());
+            }
+            
+            if (this.campoCusto.getText().length() < 2) {
+                throw new Mensagens("Custo deve ser número e conter ao menos 2 caracteres");
+            } else {
+                custoAquisicao = Double.parseDouble(this.campoCusto.getText());
+            }
+
+            if (this.tableFerramenta.getSelectedRow() == -1) {
+                throw new Mensagens("Primeiro Selecione uma ferramenta para alterar");
+            } else {
+                id = Integer.parseInt(this.tableFerramenta.getValueAt(this.tableFerramenta.getSelectedRow(), 0).toString());
+            }
+
+            // envia os dados para a Ferramenta processar
+            if (this.ferramentaDAO.UpdateFerramentaBD(new Ferramenta(id, nome, marca, custoAquisicao))) {
+
+                // limpa os campos
+                this.campoNome.setText("");
+                this.campoMarca.setText("");
+                this.campoCusto.setText("");
+                JOptionPane.showMessageDialog(rootPane, "Ferramenta alterada com sucesso!");
+
+            }
+            System.out.println(this.ferramentaDAO.getMinhaLista().toString());
+        } catch (Mensagens erro) {
+            JOptionPane.showMessageDialog(null, erro.getMessage());
+        } catch (NumberFormatException erro2) {
+            JOptionPane.showMessageDialog(null, "Informe um numero.");
+        } finally {
+            carregaTabela(); // atualiza a tabela.
+        }
+        
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    public void carregaTabela() { // listando os objetos ferramenta na tabela
+
+        DefaultTableModel modelo = (DefaultTableModel) this.tableFerramenta.getModel();
+        modelo.setNumRows(0);
+
+        ArrayList<Ferramenta> minhalista = ferramentaDAO.getMinhaLista();
+
+        for (Ferramenta a : minhalista) {
+            modelo.addRow(new Object[]{
+                a.getId(),
+                a.getNome(),
+                a.getMarca(),
+                a.getCustoAquisicao()
+            });
+        }
+    }
+    
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -245,6 +356,6 @@ public class TelaFerramentas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tabelFerramentas;
+    private javax.swing.JTable tableFerramenta;
     // End of variables declaration//GEN-END:variables
 }

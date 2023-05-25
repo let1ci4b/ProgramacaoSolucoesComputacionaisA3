@@ -61,11 +61,12 @@ public class FerramentaDAO {
             ResultSet res = stmt.executeQuery("SELECT * FROM tb_ferramentas");
             while (res.next()) {
 
+                int id = res.getInt("id_ferramenta");
                 String nome = res.getString("nome");
                 String marca = res.getString("marca");
                 double custoAquisicao = res.getDouble("custo_aquisicao");
 
-                Ferramenta objeto = new Ferramenta(nome, marca, custoAquisicao);
+                Ferramenta objeto = new Ferramenta(id, nome, marca, custoAquisicao);
 
                 MinhaLista.add(objeto);
             }

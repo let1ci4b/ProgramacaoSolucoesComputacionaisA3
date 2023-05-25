@@ -48,36 +48,33 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="btnAtualizar" min="-2" pref="75" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="140" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel1" min="-2" pref="52" max="-2" attributes="0"/>
-                                      <Component id="jLabel2" min="-2" pref="63" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="campoTelefone" pref="234" max="32767" attributes="0"/>
-                                      <Component id="campoNome" max="32767" attributes="0"/>
-                                  </Group>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="140" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLabel1" min="-2" pref="52" max="-2" attributes="0"/>
+                                  <Component id="jLabel2" min="-2" pref="63" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" attributes="0">
-                                  <Component id="btnCadastra" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="btnEdita" min="-2" pref="97" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="btnExclui" min="-2" pref="97" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="campoTelefone" pref="234" max="32767" attributes="0"/>
+                                  <Component id="campoNome" max="32767" attributes="0"/>
                               </Group>
                           </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="btnCadastra" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="btnEdita" min="-2" pref="97" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="btnExclui" min="-2" pref="97" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <Group type="102" attributes="0">
-                          <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                          <Component id="jScrollPane2" min="-2" pref="535" max="-2" attributes="0"/>
-                      </Group>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                      <Component id="jScrollPane2" min="-2" pref="535" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="36" max="32767" attributes="0"/>
@@ -103,9 +100,7 @@
                   <Component id="btnEdita" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnExclui" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-              <Component id="btnAtualizar" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
               <Component id="jScrollPane2" min="-2" pref="185" max="-2" attributes="0"/>
               <EmptySpace pref="62" max="32767" attributes="0"/>
           </Group>
@@ -199,13 +194,5 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="btnAtualizar">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="sync"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAtualizarActionPerformed"/>
-      </Events>
-    </Component>
   </SubComponents>
 </Form>
