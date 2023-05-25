@@ -4,17 +4,32 @@
  */
 package View;
 
+import DAO.EmprestimoDAO;
+import Model.Emprestimo;
+import java.util.ArrayList;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
+
 /**
  *
  * @author leth4
  */
 public class TelaEmprestimos extends javax.swing.JFrame {
-
-    /**
-     * Creates new form TelaEmprestimos
-     */
+    
+    private EmprestimoDAO emprestimoDAO;
+    private MaskFormatter mascaraData = null;
+    
     public TelaEmprestimos() {
+        mascaraCampo();
         initComponents();
+        this.emprestimoDAO = new EmprestimoDAO();
+        carregaTabela();
     }
 
     /**
@@ -31,16 +46,16 @@ public class TelaEmprestimos extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         campoAmigo = new javax.swing.JTextField();
-        campoDataPed = new javax.swing.JTextField();
+        campoDataPed = new javax.swing.JFormattedTextField(mascaraData);
         campoFerramenta = new javax.swing.JTextField();
-        campoDataDev = new javax.swing.JTextField();
         btnCadastrar = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableEmprestimos = new javax.swing.JTable();
+        campoDataDev = new javax.swing.JFormattedTextField(mascaraData);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Empréstimos");
 
         jLabel1.setText("ID amigo:");
@@ -57,19 +72,12 @@ public class TelaEmprestimos extends javax.swing.JFrame {
             }
         });
 
-        campoDataPed.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoDataPedActionPerformed(evt);
-            }
-        });
-
-        campoDataDev.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoDataDevActionPerformed(evt);
-            }
-        });
-
         btnCadastrar.setText("CADASTRAR");
+        btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadastrarActionPerformed(evt);
+            }
+        });
 
         btnEditar.setText("EDITAR");
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
@@ -93,6 +101,8 @@ public class TelaEmprestimos extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tableEmprestimos);
 
+        campoDataDev.setToolTipText("");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -115,15 +125,15 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(campoAmigo)
-                                    .addComponent(campoDataPed, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(campoAmigo, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                                    .addComponent(campoDataPed, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(campoFerramenta)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(campoFerramenta, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(campoDataDev, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 575, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(82, Short.MAX_VALUE))
@@ -140,9 +150,9 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
+                    .addComponent(jLabel2)
                     .addComponent(campoDataPed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(campoDataDev, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(campoDataDev, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCadastrar)
@@ -161,18 +171,71 @@ public class TelaEmprestimos extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_campoAmigoActionPerformed
 
-    private void campoDataPedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoDataPedActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoDataPedActionPerformed
-
-    private void campoDataDevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoDataDevActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoDataDevActionPerformed
-
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEditarActionPerformed
 
+    private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
+        // TESTANDO, NÃO FUNCIONA AINDA
+        try {
+            // recebendo e validando dados da interface grafica.
+            int idAmigo = 0;
+            int idFerramenta = 0;
+            Date dataEmprestimo;
+            Date dataDevolucao;
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+            if (Integer.parseInt(this.campoAmigo.getText()) < 0 || Integer.parseInt(this.campoFerramenta.getText()) < 0) {
+                throw new Mensagens("O ID inserido é inválido.");
+            } else {
+                idAmigo = Integer.parseInt(this.campoAmigo.getText());
+                idFerramenta = Integer.parseInt(this.campoFerramenta.getText());
+            }
+            
+            dataEmprestimo = sdf.parse(this.campoDataPed.getText());
+            //System.out.println(this.emprestimoDAO.getMinhaLista().toString());
+
+        } catch (Mensagens erro) {
+            JOptionPane.showMessageDialog(null, erro.getMessage());
+        } catch (NumberFormatException erro2) {
+            JOptionPane.showMessageDialog(null, "Informe um número.");
+        } /*catch (SQLException ex) {
+            Logger.getLogger(TelaFerramentas.class.getName()).log(Level.SEVERE, null, ex);
+        }*/ catch (ParseException ex) {
+            Logger.getLogger(TelaEmprestimos.class.getName()).log(Level.SEVERE, null, ex);
+        }finally {
+            carregaTabela(); // atualiza a tabela.
+        }
+    }//GEN-LAST:event_btnCadastrarActionPerformed
+
+    public void carregaTabela() { // listando os objetos emprestimo na tabela
+
+        DefaultTableModel modelo = (DefaultTableModel) this.tableEmprestimos.getModel();
+        modelo.setNumRows(0);
+
+        ArrayList<Emprestimo> minhalista = emprestimoDAO.getMinhaLista();
+
+        for (Emprestimo e : minhalista) {
+            modelo.addRow(new Object[]{
+                e.getId(),
+                e.getAmigo().getNome(),
+                e.getFerramenta().getNome(),
+                e.getDataEmprestimo(),
+                e.getDataDevolucao(),
+                e.isStatus()
+            });
+        }
+    }
+    
+    public void mascaraCampo() {
+        try {
+            mascaraData = new MaskFormatter("##-##-####");
+            mascaraData.setPlaceholderCharacter('_');
+        } catch (ParseException ex) {
+            Logger.getLogger(TelaEmprestimos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -213,8 +276,8 @@ public class TelaEmprestimos extends javax.swing.JFrame {
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JTextField campoAmigo;
-    private javax.swing.JTextField campoDataDev;
-    private javax.swing.JTextField campoDataPed;
+    private javax.swing.JFormattedTextField campoDataDev;
+    private javax.swing.JFormattedTextField campoDataPed;
     private javax.swing.JTextField campoFerramenta;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
