@@ -4,12 +4,15 @@
  */
 package View;
 
-import DAO.EmprestimoDAO;
+import DAO.*;
 import Model.Emprestimo;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -23,6 +26,8 @@ import javax.swing.text.MaskFormatter;
 public class TelaEmprestimos extends javax.swing.JFrame {
     
     private EmprestimoDAO emprestimoDAO;
+    private AmigoDAO amigoDAO;
+    private FerramentaDAO ferramentaDAO;
     private MaskFormatter mascaraData = null;
     
     public TelaEmprestimos() {
@@ -99,6 +104,7 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                 "ID:", "Amigo:", "Ferramenta:", "Data pedido:", "Data devolução:", "Status:"
             }
         ));
+        tableEmprestimos.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tableEmprestimos);
 
         campoDataDev.setToolTipText("");
@@ -176,34 +182,65 @@ public class TelaEmprestimos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        // TESTANDO, NÃO FUNCIONA AINDA
+
         try {
             // recebendo e validando dados da interface grafica.
+            this.amigoDAO = new AmigoDAO();
+            this.ferramentaDAO = new FerramentaDAO();
+            
             int idAmigo = 0;
             int idFerramenta = 0;
-            Date dataEmprestimo;
-            Date dataDevolucao;
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            java.sql.Date dataEmprestimo;
+            java.sql.Date dataDevolucao = null;
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
             if (Integer.parseInt(this.campoAmigo.getText()) < 0 || Integer.parseInt(this.campoFerramenta.getText()) < 0) {
                 throw new Mensagens("O ID inserido é inválido.");
+            } else if (this.amigoDAO.carregaAmigo(Integer.parseInt(this.campoAmigo.getText())).getNome() == null) {
+                throw new Mensagens("O ID do amigo é inexistente.");
+            } else if (this.ferramentaDAO.carregaFerramenta(Integer.parseInt(this.campoFerramenta.getText())).getNome() == null) {
+                throw new Mensagens("O ID da ferramenta é inexistente.");
             } else {
                 idAmigo = Integer.parseInt(this.campoAmigo.getText());
                 idFerramenta = Integer.parseInt(this.campoFerramenta.getText());
             }
             
-            dataEmprestimo = sdf.parse(this.campoDataPed.getText());
-            //System.out.println(this.emprestimoDAO.getMinhaLista().toString());
-
+            if(this.campoDataPed.getText().contains("_")) {
+                throw new Mensagens("Insira uma data de empréstimo válida.");
+            } else {
+                Date dataPadrao = sdf.parse(this.campoDataPed.getText());
+                long tempo = dataPadrao.getTime();
+                dataEmprestimo = new java.sql.Date(tempo);
+                System.out.println(dataEmprestimo);
+            }
+            
+            if(!this.campoDataDev.getText().contains("_")) {
+                Date dataPadrao = sdf.parse(this.campoDataDev.getText());
+                long tempo = dataPadrao.getTime();
+                dataDevolucao = new java.sql.Date(tempo);
+                System.out.println(dataDevolucao);
+            }
+            
+            Emprestimo objeto = new Emprestimo(amigoDAO.carregaAmigo(idAmigo), ferramentaDAO.carregaFerramenta(idFerramenta), dataEmprestimo, dataDevolucao);
+            
+            if(this.emprestimoDAO.InsertEmprestimoBD(objeto)) {
+                JOptionPane.showMessageDialog(rootPane, "Empréstimo Cadastrado com sucesso!");
+                
+                this.campoAmigo.setText("");
+                this.campoFerramenta.setText("");
+                this.campoDataPed.setText("");
+                this.campoDataDev.setText("");
+            }
+            
         } catch (Mensagens erro) {
             JOptionPane.showMessageDialog(null, erro.getMessage());
         } catch (NumberFormatException erro2) {
             JOptionPane.showMessageDialog(null, "Informe um número.");
-        } /*catch (SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(TelaFerramentas.class.getName()).log(Level.SEVERE, null, ex);
-        }*/ catch (ParseException ex) {
+        } catch (ParseException ex) {
             Logger.getLogger(TelaEmprestimos.class.getName()).log(Level.SEVERE, null, ex);
-        }finally {
+        } finally {
             carregaTabela(); // atualiza a tabela.
         }
     }//GEN-LAST:event_btnCadastrarActionPerformed
