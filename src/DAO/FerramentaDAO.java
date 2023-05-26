@@ -13,6 +13,7 @@ import java.sql.Statement;
 
 public class FerramentaDAO {
     public static ArrayList<Ferramenta> MinhaLista = new ArrayList<>();
+    double contadorCusto;
     
     public Connection getConexao() {
 
@@ -158,4 +159,23 @@ public class FerramentaDAO {
         }
         return objeto;
     }
+    
+    public double getContadorCusto() {
+        ResultSet resCusto;
+        
+        try {
+            Statement stmt = this.getConexao().createStatement();
+            resCusto = stmt.executeQuery("SELECT SUM(custo_aquisicao) FROM tb_ferramentas");
+            if (resCusto.next()) {
+                contadorCusto = resCusto.getDouble("SUM(custo_aquisicao)");  
+            }
+            stmt.close();            
+            
+        } catch (SQLException erro) {
+            throw new RuntimeException(erro);
+        }
+        
+        return contadorCusto;
+    }
+    
 }
