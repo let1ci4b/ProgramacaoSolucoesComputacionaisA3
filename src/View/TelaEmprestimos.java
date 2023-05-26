@@ -279,7 +279,7 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                 dataDevolucao = new java.sql.Date(tempo);
                 
                 if(dataEmprestimo.getTime() > dataDevolucao.getTime()) {
-                    throw new Mensagens("Data de devolução se encontra após data de empréstimo.");
+                    throw new Mensagens("Data de empréstimo se encontra após data de devolução");
                 }
             }
             
@@ -296,7 +296,7 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                 this.campoDataDev.setValue(null);
                 amigoDAO.UpdateQtdEmprest(objeto.getAmigo()); // atualiza a qtd de emprestimos de um amigo
                 
-                JOptionPane.showMessageDialog(rootPane, "Empréstimo Cadastrado com sucesso!");
+                JOptionPane.showMessageDialog(rootPane, "Empréstimo cadastrado com sucesso!");
             }
             
         } catch (Mensagens | SQLException erro) {
