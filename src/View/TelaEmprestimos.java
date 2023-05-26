@@ -211,14 +211,12 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                 Date dataPadrao = sdf.parse(this.campoDataPed.getText());
                 long tempo = dataPadrao.getTime();
                 dataEmprestimo = new java.sql.Date(tempo);
-                //System.out.println(dataEmprestimo);
             }
             
             if(!this.campoDataDev.getText().contains("_")) {
                 Date dataPadrao = sdf.parse(this.campoDataDev.getText());
                 long tempo = dataPadrao.getTime();
                 dataDevolucao = new java.sql.Date(tempo);
-                //System.out.println(dataDevolucao);
             }
             
             Emprestimo objeto = new Emprestimo(amigoDAO.carregaAmigo(idAmigo),
