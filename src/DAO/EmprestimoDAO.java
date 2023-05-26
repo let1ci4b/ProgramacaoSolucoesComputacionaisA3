@@ -62,7 +62,10 @@ public class EmprestimoDAO {
         
         try {
             Statement stmt = this.getConexao().createStatement();
-            ResultSet res = stmt.executeQuery("SELECT * FROM tb_emprestimos");
+            ResultSet res = stmt.executeQuery("SELECT id_emprestimo, fk_amigo, fk_ferramenta,"
+                    + "DATE_FORMAT(data_emprestimo, '%d/%m/%Y') AS data_emprestimo,"
+                    + "DATE_FORMAT(data_devolucao, '%d/%m/%Y') as data_devolucao FROM tb_emprestimos");
+            
             while (res.next()) {
                 
                 int id = res.getInt("id_emprestimo");
@@ -88,7 +91,7 @@ public class EmprestimoDAO {
     
     // Cadastra novo amigo
     public boolean InsertEmprestimoBD(Emprestimo objeto) throws SQLException {
-        String sql = "INSERT INTO tb_emprestimos(fk_amigo,fk_ferramenta,data_emprestimo,data_devolucao) VALUES(?,?,?,?)";
+        String sql = "INSERT INTO tb_emprestimos(fk_amigo,fk_ferramenta,data_emprestimo,data_devolucao,status) VALUES(?,?,?,?,?)";
 
         try {
             PreparedStatement stmt = this.getConexao().prepareStatement(sql);
@@ -97,6 +100,7 @@ public class EmprestimoDAO {
             stmt.setInt(2, objeto.getFerramenta().getId());
             stmt.setDate(3, objeto.getDataEmprestimo());
             stmt.setDate(4, objeto.getDataDevolucao());
+            stmt.setBoolean(5, objeto.isStatus());
 
             stmt.execute();
             stmt.close();
