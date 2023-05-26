@@ -12,11 +12,12 @@ import javax.swing.table.DefaultTableModel;
 public class TelaFerramentas extends javax.swing.JFrame {
     
     private FerramentaDAO ferramentaDAO; // cria o vinculo com o Ferramenta.java
-
+    
     public TelaFerramentas() {
         initComponents();
         this.ferramentaDAO = new FerramentaDAO(); // carrega DAO de Ferramenta.java
         carregaTabela();
+        custoFerramentas();
     }
 
     @SuppressWarnings("unchecked")
@@ -221,6 +222,7 @@ public class TelaFerramentas extends javax.swing.JFrame {
             Logger.getLogger(TelaFerramentas.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             carregaTabela(); // atualiza a tabela.
+            custoFerramentas(); // atualiza o valor das ferramentas.
         }
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
@@ -244,6 +246,7 @@ public class TelaFerramentas extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, erro.getMessage());
         } finally {
             carregaTabela();
+            custoFerramentas();
         }
         
     }//GEN-LAST:event_btnExcluirActionPerformed
@@ -299,6 +302,7 @@ public class TelaFerramentas extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Informe um numero.");
         } finally {
             carregaTabela(); // atualiza a tabela.
+            custoFerramentas();
         }
         
     }//GEN-LAST:event_btnEditarActionPerformed
@@ -318,6 +322,11 @@ public class TelaFerramentas extends javax.swing.JFrame {
                 a.getCustoAquisicao()
             });
         }
+    }
+    
+    public void custoFerramentas(){
+        String contadorCusto = String.valueOf(ferramentaDAO.getContadorCusto());
+        this.campoCustoTotal.setText(contadorCusto);
     }
     
     public static void main(String args[]) {
