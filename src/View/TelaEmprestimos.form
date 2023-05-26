@@ -44,8 +44,8 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="campoAmigo" pref="163" max="32767" attributes="0"/>
                                   <Component id="campoDataPed" pref="163" max="32767" attributes="0"/>
+                                  <Component id="campoAmigo" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -71,10 +71,10 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="campoAmigo" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="campoFerramenta" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="campoAmigo" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -117,11 +117,6 @@
         <Property name="text" type="java.lang.String" value="Data devolu&#xe7;&#xe3;o:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="campoAmigo">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campoAmigoActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JFormattedTextField" name="campoDataPed">
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JFormattedTextField(mascaraData)"/>
@@ -149,6 +144,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="EXCLUIR"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExcluirActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>
@@ -217,6 +215,8 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JFormattedTextField(mascaraData)"/>
       </AuxValues>
+    </Component>
+    <Component class="javax.swing.JTextField" name="campoAmigo">
     </Component>
   </SubComponents>
 </Form>

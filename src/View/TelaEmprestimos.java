@@ -13,11 +13,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.ResolverStyle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JRootPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
@@ -30,7 +33,7 @@ public class TelaEmprestimos extends javax.swing.JFrame {
     private EmprestimoDAO emprestimoDAO;
     private AmigoDAO amigoDAO;
     private FerramentaDAO ferramentaDAO;
-    private MaskFormatter mascaraData = null;
+    private MaskFormatter mascaraData;
     
     public TelaEmprestimos() {
         mascaraCampo();
@@ -54,7 +57,6 @@ public class TelaEmprestimos extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        campoAmigo = new javax.swing.JTextField();
         campoDataPed = new javax.swing.JFormattedTextField(mascaraData);
         campoFerramenta = new javax.swing.JTextField();
         btnCadastrar = new javax.swing.JButton();
@@ -63,6 +65,7 @@ public class TelaEmprestimos extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tableEmprestimos = new javax.swing.JTable();
         campoDataDev = new javax.swing.JFormattedTextField(mascaraData);
+        campoAmigo = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Empréstimos");
@@ -74,12 +77,6 @@ public class TelaEmprestimos extends javax.swing.JFrame {
         jLabel3.setText("ID ferramenta:");
 
         jLabel4.setText("Data devolução:");
-
-        campoAmigo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                campoAmigoActionPerformed(evt);
-            }
-        });
 
         btnCadastrar.setText("CADASTRAR");
         btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
@@ -96,6 +93,11 @@ public class TelaEmprestimos extends javax.swing.JFrame {
         });
 
         btnExcluir.setText("EXCLUIR");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         tableEmprestimos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -135,8 +137,8 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(campoAmigo, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                                    .addComponent(campoDataPed, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE))
+                                    .addComponent(campoDataPed, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                                    .addComponent(campoAmigo))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -153,10 +155,10 @@ public class TelaEmprestimos extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoAmigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel1)
-                    .addComponent(campoFerramenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(campoFerramenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(campoAmigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -177,12 +179,68 @@ public class TelaEmprestimos extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void campoAmigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoAmigoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_campoAmigoActionPerformed
-
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        // TODO add your handling code here:
+        
+        try {
+        
+            int idAmigo = 0;
+            int idFerramenta = 0;
+            java.sql.Date dataEmprestimo;
+            java.sql.Date dataDevolucao = null;
+            
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            sdf.setLenient(false);
+            
+            if (Integer.parseInt(this.campoAmigo.getText()) < 0 || Integer.parseInt(this.campoFerramenta.getText()) < 0) {
+                throw new Mensagens("ID deve ser um número positivo.");
+            } else {
+                idAmigo = Integer.parseInt(this.campoAmigo.getText());
+                idFerramenta = Integer.parseInt(this.campoFerramenta.getText());
+            }
+            
+            if(this.campoDataPed.getText().contains("_")) {
+                throw new Mensagens("Insira uma data de empréstimo válida.");
+            } else {
+                Date dataPadrao = sdf.parse(this.campoDataPed.getText());
+                long tempo = dataPadrao.getTime();
+                dataEmprestimo = new java.sql.Date(tempo);
+            }
+            
+            if(!this.campoDataDev.getText().contains("_")) {
+                Date dataPadrao = sdf.parse(this.campoDataDev.getText());
+                long tempo = dataPadrao.getTime();
+                dataDevolucao = new java.sql.Date(tempo);
+                
+                if(dataEmprestimo.getTime() > dataDevolucao.getTime()) {
+                    throw new Mensagens("Data de devolução se encontra após data de empréstimo.");
+                }
+            }
+            
+            Emprestimo objeto = new Emprestimo(amigoDAO.carregaAmigo(idAmigo),
+                                            ferramentaDAO.carregaFerramenta(idFerramenta),
+                                                dataEmprestimo,
+                                                dataDevolucao);
+            if (this.emprestimoDAO.UpdateEmprestimoBD(objeto)) {
+
+                // limpa os campos
+                this.campoAmigo.setText("");
+                this.campoFerramenta.setText("");
+                this.campoDataPed.setText("");
+                this.campoDataDev.setText("");
+                JOptionPane.showMessageDialog(rootPane, "Empréstimo alterado com sucesso!");
+
+            }
+            System.out.println(this.emprestimoDAO.getMinhaLista().toString());
+        } catch (Mensagens | SQLException erro) {
+            JOptionPane.showMessageDialog(null, erro.getMessage(), "Aviso", JOptionPane.WARNING_MESSAGE);
+        } catch (NumberFormatException erro) {
+            JOptionPane.showMessageDialog(null, "Favor, informe os IDs necessários para alteração.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        } catch (ParseException erro) {
+            JOptionPane.showMessageDialog(null, "Erro ao converter data inválida.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        } finally {
+            carregaTabela();
+        }
+        
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
@@ -196,7 +254,9 @@ public class TelaEmprestimos extends javax.swing.JFrame {
             int idFerramenta = 0;
             java.sql.Date dataEmprestimo;
             java.sql.Date dataDevolucao = null;
+            
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            sdf.setLenient(false);
 
             if (Integer.parseInt(this.campoAmigo.getText()) < 0 || Integer.parseInt(this.campoFerramenta.getText()) < 0) {
                 throw new Mensagens("O ID inserido é inválido.");
@@ -217,6 +277,10 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                 Date dataPadrao = sdf.parse(this.campoDataDev.getText());
                 long tempo = dataPadrao.getTime();
                 dataDevolucao = new java.sql.Date(tempo);
+                
+                if(dataEmprestimo.getTime() > dataDevolucao.getTime()) {
+                    throw new Mensagens("Data de devolução se encontra após data de empréstimo.");
+                }
             }
             
             Emprestimo objeto = new Emprestimo(amigoDAO.carregaAmigo(idAmigo),
@@ -225,27 +289,50 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                                                 dataDevolucao);
             
             if(this.emprestimoDAO.InsertEmprestimoBD(objeto)) {
-                JOptionPane.showMessageDialog(rootPane, "Empréstimo Cadastrado com sucesso!");
                 
                 this.campoAmigo.setText("");
                 this.campoFerramenta.setText("");
-                this.campoDataPed.setText("");
-                this.campoDataDev.setText("");
+                this.campoDataPed.setValue(null);
+                this.campoDataDev.setValue(null);
                 amigoDAO.UpdateQtdEmprest(objeto.getAmigo()); // atualiza a qtd de emprestimos de um amigo
+                
+                JOptionPane.showMessageDialog(rootPane, "Empréstimo Cadastrado com sucesso!");
             }
             
-        } catch (Mensagens erro) {
-            JOptionPane.showMessageDialog(null, erro.getMessage());
+        } catch (Mensagens | SQLException erro) {
+            JOptionPane.showMessageDialog(null, erro.getMessage(), "Aviso", JOptionPane.WARNING_MESSAGE);
         } catch (NumberFormatException erro) {
-            JOptionPane.showMessageDialog(null, "Informe um número.");
-        } catch (SQLException erro) {
-            JOptionPane.showMessageDialog(null, erro.getMessage());
+            JOptionPane.showMessageDialog(null, "Favor, informe os IDs necessários para o cadastro.", "Aviso", JOptionPane.WARNING_MESSAGE);
         } catch (ParseException erro) {
-            Logger.getLogger(TelaEmprestimos.class.getName()).log(Level.SEVERE, null, erro);
+            JOptionPane.showMessageDialog(null, "Erro ao converter data inválida.", "Aviso", JOptionPane.WARNING_MESSAGE);
         } finally {
             carregaTabela(); // atualiza a tabela.
         }
     }//GEN-LAST:event_btnCadastrarActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        
+        try {
+            int id = 0;
+            
+            if(this.tableEmprestimos.getSelectedRow() == -1) {
+                throw new Mensagens("Primeiro Selecione um empréstimo para remover");
+            } else {
+                id = Integer.parseInt(this.tableEmprestimos.getValueAt(this.tableEmprestimos.getSelectedRow(), 0).toString());
+            }
+            
+            int resposta = JOptionPane.showConfirmDialog(rootPane, "Tem certeza que deseja remover esta ferramenta?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            
+            if(resposta == JOptionPane.YES_OPTION && this.emprestimoDAO.DeleteEmprestimoBD(id)) {
+                JOptionPane.showMessageDialog(rootPane, "Ferramenta removida com sucesso!");
+            }
+        } catch (Mensagens erro) {
+            JOptionPane.showMessageDialog(null, erro.getMessage(), "Aviso", JOptionPane.WARNING_MESSAGE);
+        } finally {
+            carregaTabela();
+        }
+        
+    }//GEN-LAST:event_btnExcluirActionPerformed
 
     public void carregaTabela() { // listando os objetos emprestimo na tabela
 
