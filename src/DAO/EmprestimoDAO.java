@@ -62,9 +62,7 @@ public class EmprestimoDAO {
         
         try {
             Statement stmt = this.getConexao().createStatement();
-            ResultSet res = stmt.executeQuery("SELECT id_emprestimo, fk_amigo, fk_ferramenta,"
-                    + "DATE_FORMAT(data_emprestimo, '%d/%m/%Y') AS data_emprestimo,"
-                    + "DATE_FORMAT(data_devolucao, '%d/%m/%Y') as data_devolucao FROM tb_emprestimos");
+            ResultSet res = stmt.executeQuery("SELECT * FROM tb_emprestimos");
             
             while (res.next()) {
                 
@@ -73,9 +71,8 @@ public class EmprestimoDAO {
                 Ferramenta ferramenta = ferramentaDAO.carregaFerramenta(res.getInt("fk_ferramenta"));
                 java.sql.Date dataEmprestimo = res.getDate("data_emprestimo");
                 java.sql.Date dataDevolucao = res.getDate("data_devolucao");
-                boolean status = res.getBoolean("status");
                 
-                Emprestimo objeto = new Emprestimo(id, amigo, ferramenta, dataEmprestimo, dataDevolucao, status);
+                Emprestimo objeto = new Emprestimo(id, amigo, ferramenta, dataEmprestimo, dataDevolucao);
                 
                 MinhaLista.add(objeto);
             }
@@ -89,7 +86,7 @@ public class EmprestimoDAO {
         return MinhaLista;
     }
     
-    // Cadastra novo amigo
+    // Cadastra novo empréstimo
     public boolean InsertEmprestimoBD(Emprestimo objeto) throws SQLException {
         String sql = "INSERT INTO tb_emprestimos(fk_amigo,fk_ferramenta,data_emprestimo,data_devolucao,status) VALUES(?,?,?,?,?)";
 
@@ -101,6 +98,41 @@ public class EmprestimoDAO {
             stmt.setDate(3, objeto.getDataEmprestimo());
             stmt.setDate(4, objeto.getDataDevolucao());
             stmt.setBoolean(5, objeto.isStatus());
+
+            stmt.execute();
+            stmt.close();
+
+            return true;
+
+        } catch (SQLException erro) {
+            throw new RuntimeException(erro);
+        }
+
+    }
+    
+    public boolean DeleteEmprestimoBD(int id) {
+        try {
+            Statement stmt = this.getConexao().createStatement();
+            stmt.executeUpdate("DELETE FROM tb_emprestimos WHERE id_emprestimo = " + id);
+            stmt.close();            
+            
+            return true;
+        } catch (SQLException erro) {
+            throw new RuntimeException(erro);
+        }
+    }
+    
+    public boolean UpdateEmprestimoBD(Emprestimo objeto) throws SQLException {
+        String sql = "UPDATE tb_emprestimos SET id_amigo = ? ,id_ferramenta = ? ,data_emprestimo = ?, data_devolucao = ? WHERE id_emprestimo = ?";
+
+        try {
+            PreparedStatement stmt = this.getConexao().prepareStatement(sql);
+            
+            stmt.setInt(1, objeto.getAmigo().getId());
+            stmt.setInt(2, objeto.getFerramenta().getId());
+            stmt.setDate(3, objeto.getDataEmprestimo());
+            stmt.setDate(4, objeto.getDataDevolucao());
+            stmt.setInt(5, objeto.getId());
 
             stmt.execute();
             stmt.close();
