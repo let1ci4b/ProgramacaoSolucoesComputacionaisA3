@@ -36,9 +36,9 @@ public class FerramentaDAO {
 
             // Testando..
             if (connection != null) {
-                System.out.println("Status: Conectado!");
+                System.out.println("\u001B[32mStatus: Conectado!\u001B[0m");
             } else {
-                System.out.println("Status: NAO CONECTADO!");
+                System.out.println("\u001B[31mStatus: NAO CONECTADO!\u001B[0m");
             }
 
             return connection;
@@ -157,7 +157,7 @@ public class FerramentaDAO {
             if(erro.getSQLState().equals("S1000")){
                 throw new SQLException("ID de Ferramenta inexistente.");
             }
-            throw new SQLException("Erro de execução no SQL código " + erro.getSQLState());
+            throw new RuntimeException("Erro de execução no SQL código " + erro.getSQLState());
         }
         return objeto;
     }

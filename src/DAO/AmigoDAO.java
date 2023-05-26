@@ -76,7 +76,8 @@ public class AmigoDAO {
 
             stmt.close();
 
-        } catch (SQLException ex) {
+        } catch (SQLException erro) {
+            throw new RuntimeException(erro);
         }
 
         return MinhaLista;
@@ -119,6 +120,9 @@ public class AmigoDAO {
             return true;
 
         } catch (SQLException erro) {
+            if(erro.getSQLState().equals("23000")){
+                throw new SQLException("Telefone já está registrado.");
+            }
             throw new RuntimeException(erro);
         }
 
@@ -202,7 +206,7 @@ public class AmigoDAO {
             if(erro.getSQLState().equals("S1000")){
                 throw new SQLException("ID de Amigo inexistente.");
             }
-            throw new SQLException("Erro de execução no SQL código " + erro.getSQLState());
+            throw new RuntimeException("Erro de execução no SQL código " + erro.getSQLState());
         }
         return objeto;
     }
