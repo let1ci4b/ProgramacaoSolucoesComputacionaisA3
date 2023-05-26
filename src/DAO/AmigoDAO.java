@@ -60,7 +60,7 @@ public class AmigoDAO {
 
         try {
             Statement stmt = this.getConexao().createStatement();
-            ResultSet res = stmt.executeQuery("SELECT * FROM tb_amigos");
+            ResultSet res = stmt.executeQuery("SELECT * FROM tb_amigos order by `qtd_emprestimos` DESC");
             while (res.next()) {
 
                 int id = res.getInt("id_amigo");
@@ -147,7 +147,7 @@ public class AmigoDAO {
         
         try {
             Statement stmt = this.getConexao().createStatement();
-            ResultSet res = stmt.executeQuery("SELECT * FROM tb_amigos WHERE id_amigo = " + id);
+            ResultSet res = stmt.executeQuery("SELECT * FROM tb_amigos WHERE id_amigo = " + id );
             res.next();
 
             objeto.setNome(res.getString("nome"));
