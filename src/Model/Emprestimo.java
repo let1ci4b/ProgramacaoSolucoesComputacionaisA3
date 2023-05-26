@@ -15,13 +15,13 @@ public class Emprestimo {
     public Emprestimo() {
     }
 
-    public Emprestimo(int id, Amigo amigo, Ferramenta ferramenta, Date dataEmprestimo, Date dataDevolucao, boolean status) {
+    public Emprestimo(int id, Amigo amigo, Ferramenta ferramenta, Date dataEmprestimo, Date dataDevolucao) {
         this.id = id;
         this.amigo = amigo;
         this.ferramenta = ferramenta;
         this.dataEmprestimo = dataEmprestimo;
         this.dataDevolucao = dataDevolucao;
-        this.status = status;
+        this.status = (dataDevolucao != null);
     }
 
     public Emprestimo(Amigo amigo, Ferramenta ferramenta, Date dataEmprestimo, Date dataDevolucao) { // constructor para cadastro
