@@ -182,7 +182,7 @@ public class AmigoDAO {
         
     }
 
-    public Amigo carregaAmigo(int id) {
+    public Amigo carregaAmigo(int id) throws SQLException {
         
         Amigo objeto = new Amigo();
         objeto.setId(id);
@@ -199,6 +199,10 @@ public class AmigoDAO {
             stmt.close();            
             
         } catch (SQLException erro) {
+            if(erro.getSQLState().equals("S1000")){
+                throw new SQLException("ID de Amigo inexistente.");
+            }
+            throw new SQLException("Erro de execução no SQL código " + erro.getSQLState());
         }
         return objeto;
     }

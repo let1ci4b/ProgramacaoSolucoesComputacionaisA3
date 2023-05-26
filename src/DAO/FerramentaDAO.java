@@ -9,7 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import static java.time.Clock.system;
 
 
 public class FerramentaDAO {
@@ -139,7 +138,7 @@ public class FerramentaDAO {
 
     }
 
-    public Ferramenta carregaFerramenta(int id) {
+    public Ferramenta carregaFerramenta(int id) throws SQLException {
         
         Ferramenta objeto = new Ferramenta();
         objeto.setId(id);
@@ -154,10 +153,11 @@ public class FerramentaDAO {
             objeto.setCustoAquisicao(res.getDouble("custo_aquisicao"));
 
             stmt.close();            
-            
         } catch (SQLException erro) {
-             System.out.println(erro.getErrorCode());
-             throw new RuntimeException(erro);
+            if(erro.getSQLState().equals("S1000")){
+                throw new SQLException("ID de Ferramenta inexistente.");
+            }
+            throw new SQLException("Erro de execução no SQL código " + erro.getSQLState());
         }
         return objeto;
     }
