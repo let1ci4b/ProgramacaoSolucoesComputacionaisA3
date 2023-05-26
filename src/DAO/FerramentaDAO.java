@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import static java.time.Clock.system;
 
 
 public class FerramentaDAO {
@@ -155,7 +156,8 @@ public class FerramentaDAO {
             stmt.close();            
             
         } catch (SQLException erro) {
-            throw new RuntimeException(erro);
+             System.out.println(erro.getErrorCode());
+             throw new RuntimeException(erro);
         }
         return objeto;
     }

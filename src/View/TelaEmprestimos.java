@@ -5,6 +5,7 @@
 package View;
 
 import DAO.*;
+import Model.Amigo;
 import Model.Emprestimo;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -232,6 +233,8 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                 this.campoFerramenta.setText("");
                 this.campoDataPed.setText("");
                 this.campoDataDev.setText("");
+                amigoDAO.UpdateQtdEmprest(objeto.getAmigo()); // atualiza a qtd de emprestimos de um amigo
+                System.out.println(objeto.getAmigo().toString());
             }
             
         } catch (Mensagens erro) {
@@ -244,7 +247,6 @@ public class TelaEmprestimos extends javax.swing.JFrame {
             Logger.getLogger(TelaEmprestimos.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             carregaTabela(); // atualiza a tabela.
-            //amigoDAO.UpdateQtdEmprest(objeto); // atualiza a qtd de emprestimos de um amigo
         }
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
