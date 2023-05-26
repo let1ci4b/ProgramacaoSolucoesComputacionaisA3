@@ -13,7 +13,8 @@ import java.sql.Statement;
 
 public class AmigoDAO {
     
-     public static ArrayList<Amigo> MinhaLista = new ArrayList<Amigo>();
+    public static ArrayList<Amigo> MinhaLista = new ArrayList<Amigo>();
+    int qtd_Emprest;
 
     public Connection getConexao() {
 
@@ -80,6 +81,26 @@ public class AmigoDAO {
 
         return MinhaLista;
     }
+    
+    public int getqtd_Emprest(Amigo objeto){ // calculando qtd de emprestimo de cada amigo
+        
+        ResultSet qtdEmprest;
+        int id = objeto.getId();
+        
+        try {
+            Statement stmt = this.getConexao().createStatement();
+            qtdEmprest = stmt.executeQuery("SELECT COUNT(`fk_amigo`) AS `total_emprest` FROM `tb_emprestimos` WHERE `fk_amigo` = "+ id);
+            if (qtdEmprest.next()) {
+                qtd_Emprest = qtdEmprest.getInt("total_emprest");  
+            }
+            stmt.close();            
+            
+        } catch (SQLException erro) {
+            throw new RuntimeException(erro);
+        }
+        
+        return qtd_Emprest;
+    }
 
     // Cadastra novo amigo
     public boolean InsertAmigoBD(Amigo objeto) throws SQLException {
@@ -90,7 +111,7 @@ public class AmigoDAO {
 
             stmt.setString(1, objeto.getNome());
             stmt.setLong(2, objeto.getTelefone());
-            stmt.setInt(3, objeto.getQuantEmprest());
+            stmt.setInt(3, getqtd_Emprest(objeto));
 
             stmt.execute();
             stmt.close();
@@ -139,6 +160,27 @@ public class AmigoDAO {
         }
 
     }
+    
+    public boolean UpdateQtdEmprest(Amigo objeto){
+        
+         String sql = "UPDATE tb_amigos SET qtd_emprestimos = ? WHERE id_amigo = ?";
+
+        try {
+            PreparedStatement stmt = this.getConexao().prepareStatement(sql);
+            
+            stmt.setInt(1, getqtd_Emprest(objeto));
+            stmt.setInt(2, objeto.getId());
+
+            stmt.execute();
+            stmt.close();
+
+            return true;
+
+        } catch (SQLException erro) {
+            throw new RuntimeException(erro);
+        }
+        
+    }
 
     public Amigo carregaAmigo(int id) {
         
@@ -160,4 +202,5 @@ public class AmigoDAO {
         }
         return objeto;
     }
+    
 }

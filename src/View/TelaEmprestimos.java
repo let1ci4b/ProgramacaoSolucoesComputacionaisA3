@@ -34,7 +34,9 @@ public class TelaEmprestimos extends javax.swing.JFrame {
         mascaraCampo();
         initComponents();
         this.emprestimoDAO = new EmprestimoDAO();
+        this.amigoDAO = new AmigoDAO();
         carregaTabela();
+        //amigoDAO.UpdateQtdEmprest(objeto);
     }
 
     /**
@@ -242,6 +244,7 @@ public class TelaEmprestimos extends javax.swing.JFrame {
             Logger.getLogger(TelaEmprestimos.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             carregaTabela(); // atualiza a tabela.
+            //amigoDAO.UpdateQtdEmprest(objeto); // atualiza a qtd de emprestimos de um amigo
         }
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
