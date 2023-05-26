@@ -7,6 +7,7 @@ package View;
 import DAO.*;
 import Model.Amigo;
 import Model.Emprestimo;
+import Model.Ferramenta;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -199,10 +200,6 @@ public class TelaEmprestimos extends javax.swing.JFrame {
 
             if (Integer.parseInt(this.campoAmigo.getText()) < 0 || Integer.parseInt(this.campoFerramenta.getText()) < 0) {
                 throw new Mensagens("O ID inserido é inválido.");
-            } else if (this.amigoDAO.carregaAmigo(Integer.parseInt(this.campoAmigo.getText())).getNome() == null) {
-                throw new Mensagens("O ID do amigo é inexistente.");
-            } else if (this.ferramentaDAO.carregaFerramenta(Integer.parseInt(this.campoFerramenta.getText())).getNome() == null) {
-                throw new Mensagens("O ID da ferramenta é inexistente.");
             } else {
                 idAmigo = Integer.parseInt(this.campoAmigo.getText());
                 idFerramenta = Integer.parseInt(this.campoFerramenta.getText());
@@ -224,7 +221,10 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                 System.out.println(dataDevolucao);
             }
             
-            Emprestimo objeto = new Emprestimo(amigoDAO.carregaAmigo(idAmigo), ferramentaDAO.carregaFerramenta(idFerramenta), dataEmprestimo, dataDevolucao);
+            Emprestimo objeto = new Emprestimo(amigoDAO.carregaAmigo(idAmigo),
+                                            ferramentaDAO.carregaFerramenta(idFerramenta),
+                                                dataEmprestimo,
+                                                dataDevolucao);
             
             if(this.emprestimoDAO.InsertEmprestimoBD(objeto)) {
                 JOptionPane.showMessageDialog(rootPane, "Empréstimo Cadastrado com sucesso!");
@@ -239,12 +239,12 @@ public class TelaEmprestimos extends javax.swing.JFrame {
             
         } catch (Mensagens erro) {
             JOptionPane.showMessageDialog(null, erro.getMessage());
-        } catch (NumberFormatException erro2) {
+        } catch (NumberFormatException erro) {
             JOptionPane.showMessageDialog(null, "Informe um número.");
-        } catch (SQLException ex) {
-            Logger.getLogger(TelaFerramentas.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(TelaEmprestimos.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, erro.getMessage());
+        } catch (ParseException erro) {
+            Logger.getLogger(TelaEmprestimos.class.getName()).log(Level.SEVERE, null, erro);
         } finally {
             carregaTabela(); // atualiza a tabela.
         }
