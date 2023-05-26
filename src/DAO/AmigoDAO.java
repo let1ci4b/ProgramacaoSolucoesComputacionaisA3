@@ -128,7 +128,7 @@ public class AmigoDAO {
     public boolean DeleteAmigoBD(int id) {
         try {
             Statement stmt = this.getConexao().createStatement();
-            stmt.executeUpdate("TRUNCATE FROM tb_amigos WHERE id_amigo = " + id);
+            stmt.executeUpdate("DELETE FROM tb_amigos WHERE id_amigo = " + id);
             stmt.close();            
             
             return true;
