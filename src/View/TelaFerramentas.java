@@ -202,8 +202,10 @@ public class TelaFerramentas extends javax.swing.JFrame {
                 custo = Double.parseDouble(this.campoCusto.getText());
             }
             
+            Ferramenta objeto = new Ferramenta(nome, marca, custo);
+            
             // envia os dados para o Controlador cadastrar
-            if (this.ferramentaDAO.InsertFerramentaBD(new Ferramenta(nome, marca, custo))) {
+            if (this.ferramentaDAO.InsertFerramentaBD(objeto)) {
                 JOptionPane.showMessageDialog(rootPane, "Ferramenta cadastrada com sucesso!");
 
                 // limpa campos da interface
@@ -215,11 +217,11 @@ public class TelaFerramentas extends javax.swing.JFrame {
             System.out.println(this.ferramentaDAO.getMinhaLista().toString());
 
         } catch (Mensagens erro) {
-            JOptionPane.showMessageDialog(null, erro.getMessage());
-        } catch (NumberFormatException erro2) {
-            JOptionPane.showMessageDialog(null, "Informe um número.");
-        } catch (SQLException ex) {
-            Logger.getLogger(TelaFerramentas.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, erro.getMessage(), "Aviso", JOptionPane.WARNING_MESSAGE);
+        } catch (NumberFormatException erro) {
+            JOptionPane.showMessageDialog(null, "Custo inválido, informe um número.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        } catch (SQLException erro) {
+            Logger.getLogger(TelaFerramentas.class.getName()).log(Level.SEVERE, null, erro);
         } finally {
             carregaTabela(); // atualiza a tabela.
             custoFerramentas(); // atualiza o valor das ferramentas.
@@ -232,7 +234,7 @@ public class TelaFerramentas extends javax.swing.JFrame {
             int id = 0;
             
             if(this.tableFerramenta.getSelectedRow() == -1) {
-                throw new Mensagens("Primeiro Selecione uma ferramenta para remover");
+                throw new Mensagens("Primeiro, selecione uma ferramenta para remover");
             } else {
                 id = Integer.parseInt(this.tableFerramenta.getValueAt(this.tableFerramenta.getSelectedRow(), 0).toString());
             }
@@ -243,7 +245,7 @@ public class TelaFerramentas extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(rootPane, "Ferramenta removida com sucesso!");
             }
         } catch (Mensagens erro) {
-            JOptionPane.showMessageDialog(null, erro.getMessage());
+            JOptionPane.showMessageDialog(null, erro.getMessage(), "Aviso", JOptionPane.WARNING_MESSAGE);
         } finally {
             carregaTabela();
             custoFerramentas();
@@ -274,13 +276,13 @@ public class TelaFerramentas extends javax.swing.JFrame {
             }
             
             if (this.campoCusto.getText().length() < 2) {
-                throw new Mensagens("Custo deve ser número e conter ao menos 2 caracteres");
+                throw new Mensagens("Custo deve ser número e conter ao menos 2 dígitos.");
             } else {
                 custoAquisicao = Double.parseDouble(this.campoCusto.getText());
             }
 
             if (this.tableFerramenta.getSelectedRow() == -1) {
-                throw new Mensagens("Primeiro Selecione uma ferramenta para alterar");
+                throw new Mensagens("Primeiro, selecione uma ferramenta para alterar");
             } else {
                 id = Integer.parseInt(this.tableFerramenta.getValueAt(this.tableFerramenta.getSelectedRow(), 0).toString());
             }
@@ -298,8 +300,8 @@ public class TelaFerramentas extends javax.swing.JFrame {
             System.out.println(this.ferramentaDAO.getMinhaLista().toString());
         } catch (Mensagens erro) {
             JOptionPane.showMessageDialog(null, erro.getMessage());
-        } catch (NumberFormatException erro2) {
-            JOptionPane.showMessageDialog(null, "Informe um numero.");
+        } catch (NumberFormatException erro) {
+            JOptionPane.showMessageDialog(null, "Custo inválido, informe um número.");
         } finally {
             carregaTabela(); // atualiza a tabela.
             custoFerramentas();

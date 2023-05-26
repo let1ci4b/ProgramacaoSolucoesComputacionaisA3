@@ -5,22 +5,15 @@
 package View;
 
 import DAO.*;
-import Model.Amigo;
 import Model.Emprestimo;
-import Model.Ferramenta;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.ResolverStyle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JRootPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
@@ -212,7 +205,7 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                 dataDevolucao = new java.sql.Date(tempo);
                 
                 if(dataEmprestimo.getTime() > dataDevolucao.getTime()) {
-                    throw new Mensagens("Data de devolução se encontra após data de empréstimo.");
+                    throw new Mensagens("Data de empréstimo se encontra após data de devolução.");
                 }
             }
             
@@ -316,15 +309,15 @@ public class TelaEmprestimos extends javax.swing.JFrame {
             int id = 0;
             
             if(this.tableEmprestimos.getSelectedRow() == -1) {
-                throw new Mensagens("Primeiro Selecione um empréstimo para remover");
+                throw new Mensagens("Primeiro, selecione um empréstimo para remover");
             } else {
                 id = Integer.parseInt(this.tableEmprestimos.getValueAt(this.tableEmprestimos.getSelectedRow(), 0).toString());
             }
             
-            int resposta = JOptionPane.showConfirmDialog(rootPane, "Tem certeza que deseja remover esta ferramenta?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            int resposta = JOptionPane.showConfirmDialog(rootPane, "Tem certeza que deseja remover este empréstimo?", "Confirmação", JOptionPane.YES_NO_OPTION);
             
             if(resposta == JOptionPane.YES_OPTION && this.emprestimoDAO.DeleteEmprestimoBD(id)) {
-                JOptionPane.showMessageDialog(rootPane, "Ferramenta removida com sucesso!");
+                JOptionPane.showMessageDialog(rootPane, "Empréstimo removido com sucesso!");
             }
         } catch (Mensagens erro) {
             JOptionPane.showMessageDialog(null, erro.getMessage(), "Aviso", JOptionPane.WARNING_MESSAGE);
