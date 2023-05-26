@@ -37,9 +37,9 @@ public class EmprestimoDAO {
 
             // Testando..
             if (connection != null) {
-                System.out.println("Status: Conectado!");
+                System.out.println("\u001B[32mStatus: Conectado!\u001B[0m");
             } else {
-                System.out.println("Status: NAO CONECTADO!");
+                System.out.println("\u001B[31mStatus: NAO CONECTADO!\u001B[0m");
             }
 
             return connection;
