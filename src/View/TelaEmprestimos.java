@@ -287,7 +287,7 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                 this.campoFerramenta.setText("");
                 this.campoDataPed.setValue(null);
                 this.campoDataDev.setValue(null);
-                amigoDAO.UpdateQtdEmprest(objeto.getAmigo()); // atualiza a qtd de emprestimos de um amigo
+                amigoDAO.UpdateQtdEmprest(objeto.getAmigo().getId()); // atualiza a qtd de emprestimos de um amigo
                 
                 JOptionPane.showMessageDialog(rootPane, "Empréstimo cadastrado com sucesso!");
             }
@@ -307,16 +307,19 @@ public class TelaEmprestimos extends javax.swing.JFrame {
         
         try {
             int id = 0;
+            int idAmigo = 0;
             
             if(this.tableEmprestimos.getSelectedRow() == -1) {
                 throw new Mensagens("Primeiro, selecione um empréstimo para remover");
             } else {
                 id = Integer.parseInt(this.tableEmprestimos.getValueAt(this.tableEmprestimos.getSelectedRow(), 0).toString());
+                idAmigo = this.emprestimoDAO.getAmigoDoEmprestimo(id);
             }
             
             int resposta = JOptionPane.showConfirmDialog(rootPane, "Tem certeza que deseja remover este empréstimo?", "Confirmação", JOptionPane.YES_NO_OPTION);
             
             if(resposta == JOptionPane.YES_OPTION && this.emprestimoDAO.DeleteEmprestimoBD(id)) {
+                this.amigoDAO.UpdateQtdEmprest(idAmigo);
                 JOptionPane.showMessageDialog(rootPane, "Empréstimo removido com sucesso!");
             }
         } catch (Mensagens erro) {
