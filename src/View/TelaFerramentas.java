@@ -107,6 +107,7 @@ public class TelaFerramentas extends javax.swing.JFrame {
                 "ID", "Nome:", "Marca:", "Custo:"
             }
         ));
+        tableFerramenta.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tableFerramenta);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

@@ -87,6 +87,7 @@ public class TelaAmigos extends javax.swing.JFrame {
                 "ID", "Nome", "Telefone", "Empréstimos"
             }
         ));
+        tableAmigo.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tableAmigo);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
