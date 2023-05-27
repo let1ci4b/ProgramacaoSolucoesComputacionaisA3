@@ -91,8 +91,7 @@ public class TelaFerramentas extends javax.swing.JFrame {
             }
         ));
         tableFerramenta.setRowHeight(25);
-        tableFerramenta.setRowSelectionAllowed(false);
-        tableFerramenta.setSelectionBackground(new java.awt.Color(204, 204, 204));
+        tableFerramenta.setSelectionBackground(new java.awt.Color(255, 204, 204));
         tableFerramenta.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tableFerramenta);
 

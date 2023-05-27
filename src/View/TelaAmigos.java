@@ -99,10 +99,8 @@ public class TelaAmigos extends javax.swing.JFrame {
             }
         ));
         tableAmigo.setGridColor(new java.awt.Color(204, 204, 204));
-        tableAmigo.setOpaque(false);
-        tableAmigo.setRequestFocusEnabled(false);
         tableAmigo.setRowHeight(25);
-        tableAmigo.setSelectionBackground(new java.awt.Color(255, 255, 255));
+        tableAmigo.setSelectionBackground(new java.awt.Color(255, 204, 204));
         tableAmigo.setSurrendersFocusOnKeystroke(true);
         tableAmigo.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tableAmigo);
