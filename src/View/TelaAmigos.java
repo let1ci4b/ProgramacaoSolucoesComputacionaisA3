@@ -62,7 +62,7 @@ public class TelaAmigos extends javax.swing.JFrame {
             }
         });
 
-        campoNome.setForeground(new java.awt.Color(110, 13, 37));
+        campoNome.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
         campoNome.setCaretColor(new java.awt.Color(110, 13, 37));
         campoNome.setSelectionColor(new java.awt.Color(110, 13, 37));
 
@@ -77,7 +77,6 @@ public class TelaAmigos extends javax.swing.JFrame {
 
         btnCadastra.setForeground(new java.awt.Color(110, 13, 37));
         btnCadastra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/btnCadastra.png"))); // NOI18N
-        btnCadastra.setActionCommand("");
         btnCadastra.setBorder(null);
         btnCadastra.setBorderPainted(false);
         btnCadastra.setContentAreaFilled(false);
@@ -87,6 +86,7 @@ public class TelaAmigos extends javax.swing.JFrame {
             }
         });
 
+        tableAmigo.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
         tableAmigo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -98,8 +98,16 @@ public class TelaAmigos extends javax.swing.JFrame {
                 "ID", "Nome", "Telefone", "Empréstimos"
             }
         ));
+        tableAmigo.setGridColor(new java.awt.Color(204, 204, 204));
+        tableAmigo.setOpaque(false);
+        tableAmigo.setRequestFocusEnabled(false);
+        tableAmigo.setRowHeight(25);
+        tableAmigo.setSelectionBackground(new java.awt.Color(255, 255, 255));
+        tableAmigo.setSurrendersFocusOnKeystroke(true);
         tableAmigo.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tableAmigo);
+
+        campoTelefone.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
 
         btnExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/btnexit.png"))); // NOI18N
         btnExit.setBorderPainted(false);
@@ -151,9 +159,6 @@ public class TelaAmigos extends javax.swing.JFrame {
                 .addGap(260, 260, 260)
                 .addComponent(btnExclui, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(370, 370, 370)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(200, 200, 200)
                 .addComponent(campoTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
@@ -161,8 +166,11 @@ public class TelaAmigos extends javax.swing.JFrame {
                 .addComponent(btnEdita, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(160, 160, 160)
-                .addComponent(campoNome, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(campoNome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(jLabel3)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(370, 370, 370)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jLabel3.getAccessibleContext().setAccessibleName("");
