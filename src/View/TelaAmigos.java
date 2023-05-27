@@ -98,11 +98,7 @@ public class TelaAmigos extends javax.swing.JFrame {
                 "ID", "Nome", "Telefone", "Empréstimos"
             }
         ));
-        tableAmigo.setGridColor(new java.awt.Color(204, 204, 204));
-        tableAmigo.setOpaque(false);
-        tableAmigo.setRequestFocusEnabled(false);
-        tableAmigo.setSelectionBackground(new java.awt.Color(255, 255, 255));
-        tableAmigo.setSurrendersFocusOnKeystroke(true);
+        tableAmigo.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tableAmigo);
 
         btnExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/btnexit.png"))); // NOI18N
