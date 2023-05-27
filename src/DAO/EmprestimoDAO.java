@@ -144,6 +144,26 @@ public class EmprestimoDAO {
         }
 
     }
+    
+    public int getAmigoDoEmprestimo(int id) {
+        int idAmigo = 0;
+        
+        try {
+            Statement stmt = this.getConexao().createStatement();
+            ResultSet res = stmt.executeQuery("SELECT fk_amigo FROM tb_emprestimos WHERE id_emprestimo = " + id);
+            
+            while (res.next()) {   
+                idAmigo = res.getInt("fk_amigo");
+            }
+            
+            stmt.close();
+            
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        
+        return idAmigo;
+    }
 
 }
 

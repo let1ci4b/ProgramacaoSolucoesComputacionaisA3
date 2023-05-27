@@ -191,13 +191,13 @@ public class TelaAmigos extends javax.swing.JFrame {
             }
 
             if (this.campoTelefone.getText().length() != 11) {
-                throw new Mensagens("Telefone deve ser numero e conter 11 dígitos.");
+                throw new Mensagens("Telefone deve ser número e conter 11 dígitos.");
             } else {
                 telefone = Long.parseLong(this.campoTelefone.getText());
             }
 
             if (this.tableAmigo.getSelectedRow() == -1) {
-                throw new Mensagens("Primeiro Selecione um Amigo para Alterar");
+                throw new Mensagens("Primeiro, selecione um amigo para alterar");
             } else {
                 id = Integer.parseInt(this.tableAmigo.getValueAt(this.tableAmigo.getSelectedRow(), 0).toString());
             }
@@ -208,14 +208,14 @@ public class TelaAmigos extends javax.swing.JFrame {
                 // limpa os campos
                 this.campoNome.setText("");
                 this.campoTelefone.setText("");
-                JOptionPane.showMessageDialog(rootPane, "Amigo Alterado com Sucesso!");
+                JOptionPane.showMessageDialog(rootPane, "Amigo alterado com sucesso!");
 
             }
             System.out.println(this.amigoDAO.getMinhaLista().toString());
         } catch (Mensagens erro) {
-            JOptionPane.showMessageDialog(null, erro.getMessage());
+            JOptionPane.showMessageDialog(null, erro.getMessage(), "Aviso", JOptionPane.WARNING_MESSAGE);
         } catch (NumberFormatException erro2) {
-            JOptionPane.showMessageDialog(null, "Informe um numero.");
+            JOptionPane.showMessageDialog(null, "Telefone inválido, informe um número.", "Aviso", JOptionPane.WARNING_MESSAGE);
         } finally {
             carregaTabela(); // atualiza a tabela.
         }
@@ -237,14 +237,14 @@ public class TelaAmigos extends javax.swing.JFrame {
             }
 
             if (this.campoTelefone.getText().length() != 11) {
-                throw new Mensagens("Telefone deve ser numero e conter 11 dígitos.");
+                throw new Mensagens("Telefone deve ser número e conter 11 dígitos.");
             } else {
                 telefone = Long.parseLong(this.campoTelefone.getText());
             }
             
             // envia os dados para o Controlador cadastrar
             if (this.amigoDAO.InsertAmigoBD(new Amigo(nome, telefone, quantEmprest))) {
-                JOptionPane.showMessageDialog(rootPane, "Amigo Cadastrado com sucesso!");
+                JOptionPane.showMessageDialog(rootPane, "Amigo cadastrado com sucesso!");
 
                 // limpa campos da interface
                 this.campoNome.setText("");
@@ -253,12 +253,10 @@ public class TelaAmigos extends javax.swing.JFrame {
 
             System.out.println(this.amigoDAO.getMinhaLista().toString());
 
-        } catch (Mensagens erro) {
-            JOptionPane.showMessageDialog(null, erro.getMessage());
-        } catch (NumberFormatException erro2) {
-            JOptionPane.showMessageDialog(null, "Informe um número.");
-        } catch (SQLException ex) {
-            Logger.getLogger(TelaAmigos.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Mensagens | SQLException erro) {
+            JOptionPane.showMessageDialog(null, erro.getMessage(), "Aviso", JOptionPane.WARNING_MESSAGE);
+        } catch (NumberFormatException erro) {
+            JOptionPane.showMessageDialog(null, "Telefone inválido, informe um número.", "Aviso", JOptionPane.WARNING_MESSAGE);
         } finally {
             carregaTabela(); // atualiza a tabela.
         }
@@ -270,7 +268,7 @@ public class TelaAmigos extends javax.swing.JFrame {
             int id = 0;
             
             if(this.tableAmigo.getSelectedRow() == -1) {
-                throw new Mensagens("Primeiro Selecione um Amigo para Remover");
+                throw new Mensagens("Primeiro, selecione um amigo para remover");
             } else {
                 id = Integer.parseInt(this.tableAmigo.getValueAt(this.tableAmigo.getSelectedRow(), 0).toString());
             }
@@ -278,10 +276,10 @@ public class TelaAmigos extends javax.swing.JFrame {
             int resposta = JOptionPane.showConfirmDialog(rootPane, "Tem certeza que deseja remover este amigo?", "Confirmação", JOptionPane.YES_NO_OPTION);
             
             if(resposta == JOptionPane.YES_OPTION && this.amigoDAO.DeleteAmigoBD(id)) {
-                JOptionPane.showMessageDialog(rootPane, "Amigo Removido com sucesso!");
+                JOptionPane.showMessageDialog(rootPane, "Amigo removido com sucesso!");
             }
         } catch (Mensagens erro) {
-            JOptionPane.showMessageDialog(null, erro.getMessage());
+            JOptionPane.showMessageDialog(null, erro.getMessage(), "Aviso", JOptionPane.WARNING_MESSAGE);
         } finally {
             carregaTabela();
         }

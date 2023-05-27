@@ -76,20 +76,20 @@ public class AmigoDAO {
 
             stmt.close();
 
-        } catch (SQLException ex) {
+        } catch (SQLException erro) {
+            throw new RuntimeException(erro);
         }
 
         return MinhaLista;
     }
     
-    public int getqtd_Emprest(Amigo objeto){ // calculando qtd de emprestimo de cada amigo
+    public int getqtd_Emprest(int id){ // calculando qtd de emprestimo de cada amigo
         
         ResultSet qtdEmprest;
-        int id = objeto.getId();
         
         try {
             Statement stmt = this.getConexao().createStatement();
-            qtdEmprest = stmt.executeQuery("SELECT COUNT(`fk_amigo`) AS `total_emprest` FROM `tb_emprestimos` WHERE `fk_amigo` = "+ id);
+            qtdEmprest = stmt.executeQuery("SELECT COUNT(`fk_amigo`) AS `total_emprest` FROM `tb_emprestimos` WHERE `fk_amigo` = " + id);
             if (qtdEmprest.next()) {
                 qtd_Emprest = qtdEmprest.getInt("total_emprest");  
             }
@@ -111,7 +111,7 @@ public class AmigoDAO {
 
             stmt.setString(1, objeto.getNome());
             stmt.setLong(2, objeto.getTelefone());
-            stmt.setInt(3, getqtd_Emprest(objeto));
+            stmt.setInt(3, getqtd_Emprest(objeto.getId()));
 
             stmt.execute();
             stmt.close();
@@ -119,6 +119,9 @@ public class AmigoDAO {
             return true;
 
         } catch (SQLException erro) {
+            if(erro.getSQLState().equals("23000")){
+                throw new SQLException("Telefone já está registrado.");
+            }
             throw new RuntimeException(erro);
         }
 
@@ -161,15 +164,15 @@ public class AmigoDAO {
 
     }
     
-    public boolean UpdateQtdEmprest(Amigo objeto){
+    public boolean UpdateQtdEmprest(int id){
         
          String sql = "UPDATE tb_amigos SET qtd_emprestimos = ? WHERE id_amigo = ?";
 
         try {
             PreparedStatement stmt = this.getConexao().prepareStatement(sql);
             
-            stmt.setInt(1, getqtd_Emprest(objeto));
-            stmt.setInt(2, objeto.getId());
+            stmt.setInt(1, getqtd_Emprest(id));
+            stmt.setInt(2, id);
 
             stmt.execute();
             stmt.close();
@@ -202,7 +205,7 @@ public class AmigoDAO {
             if(erro.getSQLState().equals("S1000")){
                 throw new SQLException("ID de Amigo inexistente.");
             }
-            throw new SQLException("Erro de execução no SQL código " + erro.getSQLState());
+            throw new RuntimeException("Erro de execução no SQL código " + erro.getSQLState());
         }
         return objeto;
     }
