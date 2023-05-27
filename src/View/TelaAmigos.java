@@ -2,13 +2,16 @@ package View;
 
 import DAO.AmigoDAO;
 import Model.Amigo;
-import java.awt.Image;
+import java.awt.Color;
+import java.awt.Font;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 public class TelaAmigos extends javax.swing.JFrame {
     
@@ -16,6 +19,7 @@ public class TelaAmigos extends javax.swing.JFrame {
 
     public TelaAmigos() {
         initComponents();
+        modificarVisual();
         this.amigoDAO = new AmigoDAO(); // carrega DAO de Amigo.java
         this.carregaTabela();
     }
@@ -63,8 +67,8 @@ public class TelaAmigos extends javax.swing.JFrame {
         });
 
         campoNome.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        campoNome.setCaretColor(new java.awt.Color(110, 13, 37));
-        campoNome.setSelectionColor(new java.awt.Color(110, 13, 37));
+        campoNome.setCaretColor(new java.awt.Color(38, 117, 191));
+        campoNome.setSelectionColor(new java.awt.Color(255, 204, 204));
 
         btnExclui.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/btnExclui.png"))); // NOI18N
         btnExclui.setBorderPainted(false);
@@ -97,7 +101,15 @@ public class TelaAmigos extends javax.swing.JFrame {
             new String [] {
                 "ID", "Nome", "Telefone", "Empréstimos"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tableAmigo.setGridColor(new java.awt.Color(204, 204, 204));
         tableAmigo.setRowHeight(25);
         tableAmigo.setSelectionBackground(new java.awt.Color(255, 204, 204));
@@ -106,6 +118,7 @@ public class TelaAmigos extends javax.swing.JFrame {
         jScrollPane2.setViewportView(tableAmigo);
 
         campoTelefone.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        campoTelefone.setSelectionColor(new java.awt.Color(255, 204, 204));
 
         btnExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/btnexit.png"))); // NOI18N
         btnExit.setBorderPainted(false);
@@ -291,7 +304,27 @@ public class TelaAmigos extends javax.swing.JFrame {
         TelaAmigos.this.dispose();
     }//GEN-LAST:event_btnExitActionPerformed
 
-    public void carregaTabela() { // listando os objetos amigo na tabela
+    private void modificarVisual() {
+        Color accentColor = Color.decode("#6e0d25");
+        campoNome.setBorder(new LineBorder(accentColor, 1));
+        campoTelefone.setBorder(new LineBorder(accentColor, 1));
+        tableAmigo.setGridColor(accentColor);
+        tableAmigo.setBorder(new LineBorder(accentColor, 1));
+        tableAmigo.setForeground(accentColor);
+        tableAmigo.setSelectionForeground(accentColor);
+        
+        JTableHeader tableHeader = tableAmigo.getTableHeader();
+        tableHeader.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        tableHeader.setBackground(Color.WHITE);
+        tableHeader.setForeground(accentColor);
+        tableHeader.setBorder(new LineBorder(accentColor, 1));
+        
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+        tableAmigo.setDefaultRenderer(Object.class, centerRenderer);
+    }
+    
+    private void carregaTabela() { // listando os objetos amigo na tabela
 
         DefaultTableModel modelo = (DefaultTableModel) this.tableAmigo.getModel();
         modelo.setNumRows(0);

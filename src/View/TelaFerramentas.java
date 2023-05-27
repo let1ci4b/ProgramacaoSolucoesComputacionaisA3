@@ -2,12 +2,18 @@ package View;
 
 import DAO.FerramentaDAO;
 import Model.Ferramenta;
+import java.awt.Color;
+import java.awt.Font;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 public class TelaFerramentas extends javax.swing.JFrame {
     
@@ -15,6 +21,7 @@ public class TelaFerramentas extends javax.swing.JFrame {
     
     public TelaFerramentas() {
         initComponents();
+        modificarVisual();
         this.ferramentaDAO = new FerramentaDAO(); // carrega DAO de Ferramenta.java
         carregaTabela();
         custoFerramentas();
@@ -42,10 +49,13 @@ public class TelaFerramentas extends javax.swing.JFrame {
         setResizable(false);
 
         campoNome.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        campoNome.setSelectionColor(new java.awt.Color(255, 204, 204));
 
         campoMarca.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        campoMarca.setSelectionColor(new java.awt.Color(255, 204, 204));
 
         campoCusto.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        campoCusto.setSelectionColor(new java.awt.Color(255, 204, 204));
 
         btnCadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/btnCadastra.png"))); // NOI18N
         btnCadastrar.setBorderPainted(false);
@@ -89,7 +99,15 @@ public class TelaFerramentas extends javax.swing.JFrame {
             new String [] {
                 "ID", "Nome:", "Marca:", "Custo:"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tableFerramenta.setRowHeight(25);
         tableFerramenta.setSelectionBackground(new java.awt.Color(255, 204, 204));
         tableFerramenta.getTableHeader().setReorderingAllowed(false);
@@ -306,7 +324,7 @@ public class TelaFerramentas extends javax.swing.JFrame {
         TelaFerramentas.this.dispose();
     }//GEN-LAST:event_btnExitActionPerformed
 
-    public void carregaTabela() { // listando os objetos ferramenta na tabela
+    private void carregaTabela() { // listando os objetos ferramenta na tabela
 
         DefaultTableModel modelo = (DefaultTableModel) this.tableFerramenta.getModel();
         modelo.setNumRows(0);
@@ -323,9 +341,30 @@ public class TelaFerramentas extends javax.swing.JFrame {
         }
     }
     
-    public void custoFerramentas(){
+    private void custoFerramentas(){
         String contadorCusto = String.valueOf(ferramentaDAO.getContadorCusto());
         this.campoCustoTotal.setText(contadorCusto);
+    }
+    
+    private void modificarVisual() {
+        Color accentColor = Color.decode("#6e0d25");
+        campoNome.setBorder(new LineBorder(accentColor, 1));
+        campoMarca.setBorder(new LineBorder(accentColor, 1));
+        campoCusto.setBorder(new LineBorder(accentColor, 1));
+        tableFerramenta.setGridColor(accentColor);
+        tableFerramenta.setBorder(new LineBorder(accentColor, 1));
+        tableFerramenta.setForeground(accentColor);
+        tableFerramenta.setSelectionForeground(accentColor);
+        
+        JTableHeader tableHeader = tableFerramenta.getTableHeader();
+        tableHeader.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        tableHeader.setBackground(Color.WHITE);
+        tableHeader.setForeground(accentColor);
+        tableHeader.setBorder(new LineBorder(accentColor, 1));
+        
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+        tableFerramenta.setDefaultRenderer(Object.class, centerRenderer);
     }
     
     public static void main(String args[]) {

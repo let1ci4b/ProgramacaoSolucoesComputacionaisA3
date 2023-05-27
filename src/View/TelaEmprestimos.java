@@ -6,6 +6,8 @@ package View;
 
 import DAO.*;
 import Model.Emprestimo;
+import java.awt.Color;
+import java.awt.Font;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,8 +15,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.text.MaskFormatter;
 
 /**
@@ -31,6 +37,7 @@ public class TelaEmprestimos extends javax.swing.JFrame {
     public TelaEmprestimos() {
         mascaraCampo();
         initComponents();
+        modificarVisual();
         this.emprestimoDAO = new EmprestimoDAO();
         this.amigoDAO = new AmigoDAO();
         carregaTabela();
@@ -64,8 +71,10 @@ public class TelaEmprestimos extends javax.swing.JFrame {
         setResizable(false);
 
         campoDataPed.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        campoDataPed.setSelectionColor(new java.awt.Color(255, 204, 204));
 
         campoFerramenta.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        campoFerramenta.setSelectionColor(new java.awt.Color(255, 204, 204));
 
         btnCadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/btnCadastra.png"))); // NOI18N
         btnCadastrar.setBorderPainted(false);
@@ -105,7 +114,15 @@ public class TelaEmprestimos extends javax.swing.JFrame {
             new String [] {
                 "ID:", "Amigo:", "Ferramenta:", "Data pedido:", "Data devolução:", "Status:"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tableEmprestimos.setRowHeight(25);
         tableEmprestimos.setSelectionBackground(new java.awt.Color(255, 204, 204));
         tableEmprestimos.getTableHeader().setReorderingAllowed(false);
@@ -113,8 +130,10 @@ public class TelaEmprestimos extends javax.swing.JFrame {
 
         campoDataDev.setToolTipText("");
         campoDataDev.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        campoDataDev.setSelectionColor(new java.awt.Color(255, 204, 204));
 
         campoAmigo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        campoAmigo.setSelectionColor(new java.awt.Color(255, 204, 204));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/telaEmprestimos.png"))); // NOI18N
 
@@ -352,7 +371,7 @@ public class TelaEmprestimos extends javax.swing.JFrame {
         TelaEmprestimos.this.dispose();
     }//GEN-LAST:event_btnExitActionPerformed
 
-    public void carregaTabela() { // listando os objetos emprestimo na tabela
+    private void carregaTabela() { // listando os objetos emprestimo na tabela
 
         DefaultTableModel modelo = (DefaultTableModel) this.tableEmprestimos.getModel();
         modelo.setNumRows(0);
@@ -371,13 +390,35 @@ public class TelaEmprestimos extends javax.swing.JFrame {
         }
     }
     
-    public void mascaraCampo() {
+    private void mascaraCampo() {
         try {
             mascaraData = new MaskFormatter("##-##-####");
             mascaraData.setPlaceholderCharacter('_');
         } catch (ParseException ex) {
             Logger.getLogger(TelaEmprestimos.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private void modificarVisual() {
+        Color accentColor = Color.decode("#6e0d25");
+        campoAmigo.setBorder(new LineBorder(accentColor, 1));
+        campoFerramenta.setBorder(new LineBorder(accentColor, 1));
+        campoDataPed.setBorder(new LineBorder(accentColor, 1));
+        campoDataDev.setBorder(new LineBorder(accentColor, 1));
+        tableEmprestimos.setGridColor(accentColor);
+        tableEmprestimos.setBorder(new LineBorder(accentColor, 1));
+        tableEmprestimos.setForeground(accentColor);
+        tableEmprestimos.setSelectionForeground(accentColor);
+        
+        JTableHeader tableHeader = tableEmprestimos.getTableHeader();
+        tableHeader.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        tableHeader.setBackground(Color.WHITE);
+        tableHeader.setForeground(accentColor);
+        tableHeader.setBorder(new LineBorder(accentColor, 1));
+        
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+        tableEmprestimos.setDefaultRenderer(Object.class, centerRenderer);
     }
     
     /**
