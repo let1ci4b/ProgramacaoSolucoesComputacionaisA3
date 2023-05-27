@@ -26,42 +26,68 @@ public class TelaMenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnAmigo = new javax.swing.JButton();
         btnFerramenta = new javax.swing.JButton();
+        btnAmigo = new javax.swing.JButton();
         btnEmprestimo = new javax.swing.JButton();
+        btnexit = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menu");
+        setUndecorated(true);
         getContentPane().setLayout(null);
 
-        btnAmigo.setText("AMIGOS");
-        btnAmigo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAmigoActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnAmigo);
-        btnAmigo.setBounds(290, 210, 150, 23);
-
-        btnFerramenta.setText("FERRAMENTAS");
+        btnFerramenta.setBackground(new java.awt.Color(110, 13, 37));
+        btnFerramenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/btnFerramentas.png"))); // NOI18N
+        btnFerramenta.setContentAreaFilled(false);
+        btnFerramenta.setFocusPainted(false);
         btnFerramenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFerramentaActionPerformed(evt);
             }
         });
         getContentPane().add(btnFerramenta);
-        btnFerramenta.setBounds(290, 260, 150, 23);
+        btnFerramenta.setBounds(380, 390, 270, 50);
 
-        btnEmprestimo.setText("EMPRÉSTIMOS");
+        btnAmigo.setBackground(new java.awt.Color(110, 13, 37));
+        btnAmigo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/botaoAmigo_1.png"))); // NOI18N
+        btnAmigo.setContentAreaFilled(false);
+        btnAmigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAmigoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnAmigo);
+        btnAmigo.setBounds(380, 330, 270, 50);
+
+        btnEmprestimo.setBackground(new java.awt.Color(110, 13, 37));
+        btnEmprestimo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/btnEmprestimos.png"))); // NOI18N
+        btnEmprestimo.setContentAreaFilled(false);
         btnEmprestimo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEmprestimoActionPerformed(evt);
             }
         });
         getContentPane().add(btnEmprestimo);
-        btnEmprestimo.setBounds(290, 310, 150, 23);
+        btnEmprestimo.setBounds(380, 450, 270, 50);
 
-        setSize(new java.awt.Dimension(801, 519));
+        btnexit.setBackground(new java.awt.Color(110, 13, 37));
+        btnexit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/btnexit.png"))); // NOI18N
+        btnexit.setBorderPainted(false);
+        btnexit.setContentAreaFilled(false);
+        btnexit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnexitActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnexit);
+        btnexit.setBounds(1010, 20, 50, 40);
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/welcome 2 (1).png"))); // NOI18N
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(0, 0, 1090, 640);
+
+        setSize(new java.awt.Dimension(1080, 640));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -76,6 +102,10 @@ public class TelaMenu extends javax.swing.JFrame {
     private void btnEmprestimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmprestimoActionPerformed
         new TelaEmprestimos().setVisible(true);
     }//GEN-LAST:event_btnEmprestimoActionPerformed
+
+    private void btnexitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnexitActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_btnexitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -116,5 +146,7 @@ public class TelaMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnAmigo;
     private javax.swing.JButton btnEmprestimo;
     private javax.swing.JButton btnFerramenta;
+    private javax.swing.JButton btnexit;
+    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }
