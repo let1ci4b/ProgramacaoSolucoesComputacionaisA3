@@ -62,7 +62,7 @@ public class TelaAmigos extends javax.swing.JFrame {
             }
         });
 
-        campoNome.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
+        campoNome.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         campoNome.setCaretColor(new java.awt.Color(110, 13, 37));
         campoNome.setSelectionColor(new java.awt.Color(110, 13, 37));
 
@@ -86,7 +86,7 @@ public class TelaAmigos extends javax.swing.JFrame {
             }
         });
 
-        tableAmigo.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
+        tableAmigo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tableAmigo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -107,7 +107,7 @@ public class TelaAmigos extends javax.swing.JFrame {
         tableAmigo.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tableAmigo);
 
-        campoTelefone.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
+        campoTelefone.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         btnExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/btnexit.png"))); // NOI18N
         btnExit.setBorderPainted(false);
@@ -290,7 +290,7 @@ public class TelaAmigos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExcluiActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-        System.exit(0);
+        TelaAmigos.this.dispose();
     }//GEN-LAST:event_btnExitActionPerformed
 
     public void carregaTabela() { // listando os objetos amigo na tabela
