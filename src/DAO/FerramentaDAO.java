@@ -180,4 +180,18 @@ public class FerramentaDAO {
         return contadorCusto;
     }
     
+    public boolean FerramentaExistenteDB(String nome) throws SQLException {
+        
+        try {
+            
+            Statement stmt = this.getConexao().createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT nome FROM tb_ferramentas WHERE nome = '" + nome + "'");
+            
+            return rs.next();
+            
+        } catch (SQLException erro) {
+            throw new SQLException(erro);
+        }
+        
+    }
 }
