@@ -311,13 +311,29 @@ public class TelaFerramentas extends javax.swing.JFrame {
             Ferramenta objeto = new Ferramenta(nome, marca, custo);
             
             // envia os dados para o Controlador cadastrar
-            if (this.ferramentaDAO.InsertFerramentaBD(objeto)) {
-                JOptionPane.showMessageDialog(rootPane, "Ferramenta cadastrada com sucesso!");
+            if (this.ferramentaDAO.FerramentaExistenteDB(nome)) {
+                String pergunta = "Foi encontrado outra ferramenta com este nome.\nDeseja adicionar mais uma no estoque?";
+                int resposta = JOptionPane.showConfirmDialog(rootPane, pergunta, "Confirmação", JOptionPane.YES_NO_OPTION);
+                
+                if(resposta == JOptionPane.YES_OPTION) {
+                    
+                    if(this.ferramentaDAO.InsertFerramentaBD(objeto)) {
+                        JOptionPane.showMessageDialog(rootPane, "Ferramenta cadastrada com sucesso!");
 
-                // limpa campos da interface
-                this.campoNome.setText("");
-                this.campoMarca.setText("");
-                this.campoCusto.setText("");
+                        // limpa campos da interface
+                        this.campoNome.setText("");
+                        this.campoMarca.setText("");
+                        this.campoCusto.setText("");
+                    }
+                }
+            } else {
+                if(this.ferramentaDAO.InsertFerramentaBD(objeto)) {
+                    JOptionPane.showMessageDialog(rootPane, "Ferramenta cadastrada com sucesso!");
+
+                    this.campoNome.setText("");
+                    this.campoMarca.setText("");
+                    this.campoCusto.setText("");
+                }
             }
 
             System.out.println(this.ferramentaDAO.getMinhaLista().toString());
@@ -345,7 +361,8 @@ public class TelaFerramentas extends javax.swing.JFrame {
                 id = Integer.parseInt(this.tableFerramenta.getValueAt(this.tableFerramenta.getSelectedRow(), 0).toString());
             }
             
-            int resposta = JOptionPane.showConfirmDialog(rootPane, "Tem certeza que deseja remover esta ferramenta?", "Confirmação", JOptionPane.YES_NO_OPTION);
+            String pergunta = "Tem certeza que deseja remover esta ferramenta?";
+            int resposta = JOptionPane.showConfirmDialog(rootPane, pergunta, "Confirmação", JOptionPane.YES_NO_OPTION);
             
             if(resposta == JOptionPane.YES_OPTION && this.ferramentaDAO.DeleteFerramentaBD(id)) {
                 JOptionPane.showMessageDialog(rootPane, "Ferramenta removida com sucesso!");
