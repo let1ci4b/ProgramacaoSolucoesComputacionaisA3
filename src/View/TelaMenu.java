@@ -30,12 +30,13 @@ public class TelaMenu extends javax.swing.JFrame {
         btnAmigo = new javax.swing.JButton();
         btnEmprestimo = new javax.swing.JButton();
         btnexit = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menu");
         setUndecorated(true);
-        getContentPane().setLayout(null);
 
         btnFerramenta.setBackground(new java.awt.Color(110, 13, 37));
         btnFerramenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/btnFerramentas.png"))); // NOI18N
@@ -46,8 +47,6 @@ public class TelaMenu extends javax.swing.JFrame {
                 btnFerramentaActionPerformed(evt);
             }
         });
-        getContentPane().add(btnFerramenta);
-        btnFerramenta.setBounds(380, 390, 270, 50);
 
         btnAmigo.setBackground(new java.awt.Color(110, 13, 37));
         btnAmigo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/botaoAmigo_1.png"))); // NOI18N
@@ -57,8 +56,6 @@ public class TelaMenu extends javax.swing.JFrame {
                 btnAmigoActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAmigo);
-        btnAmigo.setBounds(380, 330, 270, 50);
 
         btnEmprestimo.setBackground(new java.awt.Color(110, 13, 37));
         btnEmprestimo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/btnEmprestimos.png"))); // NOI18N
@@ -68,8 +65,6 @@ public class TelaMenu extends javax.swing.JFrame {
                 btnEmprestimoActionPerformed(evt);
             }
         });
-        getContentPane().add(btnEmprestimo);
-        btnEmprestimo.setBounds(380, 450, 270, 50);
 
         btnexit.setBackground(new java.awt.Color(110, 13, 37));
         btnexit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/btnexit.png"))); // NOI18N
@@ -80,14 +75,66 @@ public class TelaMenu extends javax.swing.JFrame {
                 btnexitActionPerformed(evt);
             }
         });
-        getContentPane().add(btnexit);
-        btnexit.setBounds(1010, 20, 50, 40);
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/welcome 2 (1).png"))); // NOI18N
-        getContentPane().add(jLabel2);
-        jLabel2.setBounds(0, 0, 1090, 640);
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(110, 13, 37));
+        jLabel1.setText("Por onde deseja navegar hoje?");
 
-        setSize(new java.awt.Dimension(1080, 640));
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 66)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(110, 13, 37));
+        jLabel3.setText("BEM VIND");
+        jLabel3.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/welcome 2 (2).png"))); // NOI18N
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(380, 380, 380)
+                .addComponent(btnEmprestimo, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(380, 380, 380)
+                .addComponent(btnFerramenta, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(320, 320, 320)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(390, 390, 390)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(1010, 1010, 1010)
+                .addComponent(btnexit, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(380, 380, 380)
+                .addComponent(btnAmigo, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 1090, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(450, 450, 450)
+                .addComponent(btnEmprestimo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(390, 390, 390)
+                .addComponent(btnFerramenta, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(130, 130, 130)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(220, 220, 220)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(btnexit, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(330, 330, 330)
+                .addComponent(btnAmigo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        setSize(new java.awt.Dimension(1082, 640));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -147,6 +194,8 @@ public class TelaMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnEmprestimo;
     private javax.swing.JButton btnFerramenta;
     private javax.swing.JButton btnexit;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 }
