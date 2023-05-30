@@ -350,11 +350,14 @@ public class TelaEmprestimos extends javax.swing.JFrame {
             if (Integer.parseInt(this.campoAmigo.getText()) < 0 || Integer.parseInt(this.campoFerramenta.getText()) < 0) {
                 throw new Mensagens("O ID inserido é inválido.");
             } else{
+                idAmigo = Integer.parseInt(this.campoAmigo.getText());
+                idFerramenta = Integer.parseInt(this.campoFerramenta.getText());
                 if(emprestimoDAO.amigoPendente(idAmigo) > 0){
-                    int resposta = JOptionPane.showConfirmDialog(rootPane,"Esse amigo possui um empréstimo pendente.\nTem certeza que deseja continuar?", "Confirmação", JOptionPane.YES_NO_OPTION);
-                        if(resposta == JOptionPane.YES_OPTION) {
-                            idAmigo = Integer.parseInt(this.campoAmigo.getText());
-                            idFerramenta = Integer.parseInt(this.campoFerramenta.getText());
+                    ArrayList<Amigo> minhalista = amigoDAO.getMinhaLista();
+                    String nome = minhalista.get(idAmigo).getNome();
+                    int resposta = JOptionPane.showConfirmDialog(rootPane, nome+" possui um empréstimo pendente.\nTem certeza que deseja continuar?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                        if(resposta == JOptionPane.NO_OPTION) {
+                            throw new Mensagens("Empréstimo cancelado!");
                         } 
                 } else{
                     idAmigo = Integer.parseInt(this.campoAmigo.getText());

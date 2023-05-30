@@ -172,7 +172,7 @@ public class EmprestimoDAO {
         
          try {
             Statement stmt = this.getConexao().createStatement();
-            ResultSet pdt = stmt.executeQuery("SELECT COUNT(`fk_amigo`) AS `amg_pendente` FROM `tb_emprestimos` WHERE `fk_amigo` = 2 and `status` = false;");
+            ResultSet pdt = stmt.executeQuery("SELECT COUNT(`fk_amigo`) AS `amg_pendente` FROM `tb_emprestimos` WHERE `fk_amigo` = " +id+ " and `status` = false;");
             
             while (pdt.next()) {
                 pendente = pdt.getInt("amg_pendente");  
