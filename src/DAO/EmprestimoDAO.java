@@ -125,7 +125,7 @@ public class EmprestimoDAO {
     }
     
     public boolean UpdateEmprestimoBD(Emprestimo objeto) throws SQLException {
-        String sql = "UPDATE tb_emprestimos SET id_amigo = ? ,id_ferramenta = ? ,data_emprestimo = ?, data_devolucao = ? WHERE id_emprestimo = ?";
+        String sql = "UPDATE `tb_emprestimos` SET `fk_amigo` = ? ,`fk_ferramenta` = ? ,`data_emprestimo` = ?, `data_devolucao` = ? WHERE `id_emprestimo` = ?";
 
         try {
             PreparedStatement stmt = this.getConexao().prepareStatement(sql);
@@ -167,7 +167,7 @@ public class EmprestimoDAO {
         return idAmigo;
     }
     
-    public int amigoPendente(int id){
+    public int amigoPendente(int id){ // verifica se o amigo não devolveu uma ferramenta
         int idAmigo = 0;
         
          try {

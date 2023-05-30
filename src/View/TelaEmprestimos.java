@@ -453,13 +453,19 @@ public class TelaEmprestimos extends javax.swing.JFrame {
         ArrayList<Emprestimo> minhalista = emprestimoDAO.getMinhaLista();
 
         for (Emprestimo e : minhalista) {
+            String stt;
+            if(e.isStatus()){
+               stt = "concluído";
+            } else{
+               stt = "pendente";
+            }
             modelo.addRow(new Object[]{
                 e.getId(),
                 e.getAmigo().getNome(),
                 e.getFerramenta().getNome(),
                 e.getDataEmprestimo(),
                 e.getDataDevolucao(),
-                e.isStatus()
+                stt
             });
         }
     }
