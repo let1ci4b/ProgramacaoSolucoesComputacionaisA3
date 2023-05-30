@@ -14,9 +14,11 @@ import java.sql.Statement;
 
 
 public class EmprestimoDAO {
-    
+    AmigoDAO amigoDAO = new AmigoDAO(); // dao para transformar o id em objeto
+    FerramentaDAO ferramentaDAO = new FerramentaDAO();
     public static ArrayList<Emprestimo> MinhaLista = new ArrayList<>();
-        public Connection getConexao() {
+    
+    public Connection getConexao() {
 
         Connection connection = null;  //instância da conexão
 
@@ -55,8 +57,6 @@ public class EmprestimoDAO {
     }
         
     public ArrayList getMinhaLista() {
-        AmigoDAO amigoDAO = new AmigoDAO(); // dao para transformar o id em objeto
-        FerramentaDAO ferramentaDAO = new FerramentaDAO();
         
         MinhaLista.clear();
         
@@ -145,44 +145,22 @@ public class EmprestimoDAO {
 
     }
     
-    public int getAmigoDoEmprestimo(int id) {
-        int idAmigo = 0;
-        
+    public int amigoPendente(int idAmigo){ // verifica se o amigo não devolveu uma ferramenta
+        int idFerramenta = 0;
+                
         try {
             Statement stmt = this.getConexao().createStatement();
-            ResultSet res = stmt.executeQuery("SELECT fk_amigo FROM tb_emprestimos WHERE id_emprestimo = " + id);
+            ResultSet pdt = stmt.executeQuery("SELECT fk_ferramenta FROM `tb_emprestimos` WHERE `fk_amigo` = " + idAmigo + " and `status` = false;");
             
-            while (res.next()) {   
-                idAmigo = res.getInt("fk_amigo");
+            if(pdt.next()){
+                idFerramenta = pdt.getInt("fk_ferramenta");
             }
-            
-            stmt.close();
             
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         
-        return idAmigo;
-    }
-    
-    public int amigoPendente(int id){ // verifica se o amigo não devolveu uma ferramenta
-        int pendente = 0;
-        
-         try {
-            Statement stmt = this.getConexao().createStatement();
-            ResultSet pdt = stmt.executeQuery("SELECT COUNT(`fk_amigo`) AS `amg_pendente` FROM `tb_emprestimos` WHERE `fk_amigo` = " + id + " and `status` = false;");
-            
-            while (pdt.next()) {
-                pendente = pdt.getInt("amg_pendente");  
-            }
-            
-            stmt.close();
-            
-            return pendente;
-            
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return idFerramenta;
     }
 
 }
