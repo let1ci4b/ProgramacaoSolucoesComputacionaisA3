@@ -5,9 +5,7 @@
 package View;
 
 import DAO.*;
-import Model.Amigo;
 import Model.Emprestimo;
-import Model.Ferramenta;
 import java.awt.Color;
 import java.awt.Font;
 import java.sql.SQLException;
@@ -363,14 +361,14 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                 idAmigo = Integer.parseInt(this.campoAmigo.getText());
                 idFerramenta = Integer.parseInt(this.campoFerramenta.getText());
                 if(emprestimoDAO.amigoPendente(idAmigo) > 0){
-                    ArrayList<Amigo> minhalista1 = amigoDAO.getMinhaLista();
-                    String nome = minhalista1.get(idAmigo).getNome();
-                    ArrayList<Ferramenta> minhalista2 = ferramentaDAO.getMinhaLista();
-                    String ferramenta = minhalista2.get(idFerramenta).getNome();
+                    String nome = amigoDAO.carregaAmigo(idAmigo).getNome();
+                    String ferramenta = ferramentaDAO.carregaFerramenta(idFerramenta).getNome();
+                    
                     int resposta = JOptionPane.showConfirmDialog(rootPane, nome+" ainda não devolveu a(o) "+ferramenta+ "\nTem certeza que deseja continuar?", "Confirmação", JOptionPane.YES_NO_OPTION);
-                        if(resposta == JOptionPane.NO_OPTION) {
-                            throw new Mensagens("Empréstimo cancelado!");
-                        } 
+                    
+                    if(resposta == JOptionPane.NO_OPTION) {
+                        throw new Mensagens("Empréstimo cancelado!");
+                    } 
                 } else{
                     idAmigo = Integer.parseInt(this.campoAmigo.getText());
                     idFerramenta = Integer.parseInt(this.campoFerramenta.getText());
