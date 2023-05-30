@@ -9,6 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class FerramentaDAO {
@@ -141,13 +143,13 @@ public class FerramentaDAO {
     public Ferramenta carregaFerramenta(int id) throws SQLException {
         
         Ferramenta objeto = new Ferramenta();
-        objeto.setId(id);
         
         try {
             Statement stmt = this.getConexao().createStatement();
             ResultSet res = stmt.executeQuery("SELECT * FROM tb_ferramentas WHERE id_ferramenta = " + id);
             res.next();
 
+            objeto.setId(id);
             objeto.setNome(res.getString("nome"));
             objeto.setMarca(res.getString("marca"));
             objeto.setCustoAquisicao(res.getDouble("custo_aquisicao"));
@@ -193,5 +195,23 @@ public class FerramentaDAO {
             throw new SQLException(erro);
         }
         
+    }
+    
+    public int amigoComFerramenta(int id) { // disponibilidade da ferramenta
+        int idAmigo = 0;
+        
+        try {
+            Statement stmt = this.getConexao().createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT fk_amigo FROM tb_emprestimos WHERE fk_ferramenta = " + id + " AND status = false");
+            
+            if(rs.next()){
+                idAmigo = rs.getInt("fk_amigo"); // retorna id do amigo com ferramenta pendente
+            }
+            
+        } catch (SQLException erro) {
+            throw new RuntimeException(erro);
+        }
+        
+        return idAmigo;
     }
 }
