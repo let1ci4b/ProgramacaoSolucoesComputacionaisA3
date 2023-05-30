@@ -7,6 +7,7 @@ package View;
 import DAO.*;
 import Model.Amigo;
 import Model.Emprestimo;
+import Model.Ferramenta;
 import java.awt.Color;
 import java.awt.Font;
 import java.sql.SQLException;
@@ -41,6 +42,7 @@ public class TelaEmprestimos extends javax.swing.JFrame {
         modificarVisual();
         this.emprestimoDAO = new EmprestimoDAO();
         this.amigoDAO = new AmigoDAO();
+        this.ferramentaDAO = new FerramentaDAO();
         carregaTabela();
         //amigoDAO.UpdateQtdEmprest(objeto);
     }
@@ -353,9 +355,11 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                 idAmigo = Integer.parseInt(this.campoAmigo.getText());
                 idFerramenta = Integer.parseInt(this.campoFerramenta.getText());
                 if(emprestimoDAO.amigoPendente(idAmigo) > 0){
-                    ArrayList<Amigo> minhalista = amigoDAO.getMinhaLista();
-                    String nome = minhalista.get(idAmigo).getNome();
-                    int resposta = JOptionPane.showConfirmDialog(rootPane, nome+" possui um empréstimo pendente.\nTem certeza que deseja continuar?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                    ArrayList<Amigo> minhalista1 = amigoDAO.getMinhaLista();
+                    String nome = minhalista1.get(idAmigo).getNome();
+                    ArrayList<Ferramenta> minhalista2 = ferramentaDAO.getMinhaLista();
+                    String ferramenta = minhalista2.get(idFerramenta).getNome();
+                    int resposta = JOptionPane.showConfirmDialog(rootPane, nome+" ainda não devolveu a(o) "+ferramenta+ "\nTem certeza que deseja continuar?", "Confirmação", JOptionPane.YES_NO_OPTION);
                         if(resposta == JOptionPane.NO_OPTION) {
                             throw new Mensagens("Empréstimo cancelado!");
                         } 
