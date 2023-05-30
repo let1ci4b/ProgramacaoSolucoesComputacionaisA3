@@ -15,8 +15,6 @@ import java.sql.Statement;
 
 public class EmprestimoDAO {
     
-    int pendente;
-    
     public static ArrayList<Emprestimo> MinhaLista = new ArrayList<>();
         public Connection getConexao() {
 
@@ -168,11 +166,11 @@ public class EmprestimoDAO {
     }
     
     public int amigoPendente(int id){ // verifica se o amigo não devolveu uma ferramenta
-        int idAmigo = 0;
+        int pendente = 0;
         
          try {
             Statement stmt = this.getConexao().createStatement();
-            ResultSet pdt = stmt.executeQuery("SELECT COUNT(`fk_amigo`) AS `amg_pendente` FROM `tb_emprestimos` WHERE `fk_amigo` = " +id+ " and `status` = false;");
+            ResultSet pdt = stmt.executeQuery("SELECT COUNT(`fk_amigo`) AS `amg_pendente` FROM `tb_emprestimos` WHERE `fk_amigo` = " + id + " and `status` = false;");
             
             while (pdt.next()) {
                 pendente = pdt.getInt("amg_pendente");  
@@ -180,11 +178,11 @@ public class EmprestimoDAO {
             
             stmt.close();
             
+            return pendente;
+            
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        
-        return pendente;
     }
 
 }
