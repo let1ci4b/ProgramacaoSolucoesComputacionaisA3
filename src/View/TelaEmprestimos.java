@@ -5,6 +5,7 @@
 package View;
 
 import DAO.*;
+import Model.Amigo;
 import Model.Emprestimo;
 import java.awt.Color;
 import java.awt.Font;
@@ -348,7 +349,19 @@ public class TelaEmprestimos extends javax.swing.JFrame {
 
             if (Integer.parseInt(this.campoAmigo.getText()) < 0 || Integer.parseInt(this.campoFerramenta.getText()) < 0) {
                 throw new Mensagens("O ID inserido é inválido.");
-            } else {
+            } else if(!emprestimoDAO.amigoPendente(idAmigo)){
+                ArrayList<Amigo> minhalista = amigoDAO.getMinhaLista();
+                emprestimoDAO.getMinhaLista();
+                String name = "";
+                for (Amigo a : minhalista) {
+                        name = a.getNome();
+                }
+                int resposta = JOptionPane.showConfirmDialog(rootPane, "O(a) "+name+" possui um empréstimo pendente.\nTem certeza que deseja continuar?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                    if(resposta == JOptionPane.YES_OPTION) {
+                        idAmigo = Integer.parseInt(this.campoAmigo.getText());
+                        idFerramenta = Integer.parseInt(this.campoFerramenta.getText());
+                    } 
+            } else{
                 idAmigo = Integer.parseInt(this.campoAmigo.getText());
                 idFerramenta = Integer.parseInt(this.campoFerramenta.getText());
             }

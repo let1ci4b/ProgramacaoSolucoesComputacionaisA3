@@ -310,8 +310,6 @@ public class TelaAmigos extends javax.swing.JFrame {
                 this.campoTelefone.setText("");
             }
 
-            System.out.println(this.amigoDAO.getMinhaLista().toString());
-
         } catch (Mensagens | SQLException erro) {
             JOptionPane.showMessageDialog(null, erro.getMessage(), "Aviso", JOptionPane.WARNING_MESSAGE);
         } catch (NumberFormatException erro) {
