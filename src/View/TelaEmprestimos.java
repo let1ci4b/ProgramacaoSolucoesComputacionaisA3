@@ -349,22 +349,18 @@ public class TelaEmprestimos extends javax.swing.JFrame {
 
             if (Integer.parseInt(this.campoAmigo.getText()) < 0 || Integer.parseInt(this.campoFerramenta.getText()) < 0) {
                 throw new Mensagens("O ID inserido é inválido.");
-            } else if(!emprestimoDAO.amigoPendente(idAmigo)){
-                ArrayList<Amigo> minhalista = amigoDAO.getMinhaLista();
-                emprestimoDAO.getMinhaLista();
-                String name = "";
-                for (Amigo a : minhalista) {
-                        name = a.getNome();
-                }
-                int resposta = JOptionPane.showConfirmDialog(rootPane, "O(a) "+name+" possui um empréstimo pendente.\nTem certeza que deseja continuar?", "Confirmação", JOptionPane.YES_NO_OPTION);
-                    if(resposta == JOptionPane.YES_OPTION) {
-                        idAmigo = Integer.parseInt(this.campoAmigo.getText());
-                        idFerramenta = Integer.parseInt(this.campoFerramenta.getText());
-                    } 
             } else{
-                idAmigo = Integer.parseInt(this.campoAmigo.getText());
-                idFerramenta = Integer.parseInt(this.campoFerramenta.getText());
-            }
+                if(emprestimoDAO.amigoPendente(idAmigo) > 0){
+                    int resposta = JOptionPane.showConfirmDialog(rootPane,"Esse amigo possui um empréstimo pendente.\nTem certeza que deseja continuar?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                        if(resposta == JOptionPane.YES_OPTION) {
+                            idAmigo = Integer.parseInt(this.campoAmigo.getText());
+                            idFerramenta = Integer.parseInt(this.campoFerramenta.getText());
+                        } 
+                } else{
+                    idAmigo = Integer.parseInt(this.campoAmigo.getText());
+                    idFerramenta = Integer.parseInt(this.campoFerramenta.getText());
+                }
+            }   
             
             if(this.campoDataPed.getText().contains("_")) {
                 throw new Mensagens("Insira uma data de empréstimo válida.");

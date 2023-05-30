@@ -15,7 +15,7 @@ import java.sql.Statement;
 
 public class EmprestimoDAO {
     
-    boolean pendente = false;
+    int pendente;
     
     public static ArrayList<Emprestimo> MinhaLista = new ArrayList<>();
         public Connection getConexao() {
@@ -167,15 +167,15 @@ public class EmprestimoDAO {
         return idAmigo;
     }
     
-    public boolean amigoPendente(int id){
+    public int amigoPendente(int id){
         int idAmigo = 0;
         
          try {
             Statement stmt = this.getConexao().createStatement();
-            ResultSet pdt = stmt.executeQuery("SELECT * FROM tb_emprestimos WHERE `fk_amigo` = " +id + " AND `status` = false");
+            ResultSet pdt = stmt.executeQuery("SELECT COUNT(`fk_amigo`) AS `amg_pendente` FROM `tb_emprestimos` WHERE `fk_amigo` = 2 and `status` = false;");
             
             while (pdt.next()) {
-                pendente = pdt.getBoolean("status");  
+                pendente = pdt.getInt("amg_pendente");  
             }
             
             stmt.close();
