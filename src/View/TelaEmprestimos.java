@@ -274,6 +274,7 @@ public class TelaEmprestimos extends javax.swing.JFrame {
         
         try {
         
+            int id = 0;
             int idAmigo = 0;
             int idFerramenta = 0;
             java.sql.Date dataEmprestimo;
@@ -281,6 +282,12 @@ public class TelaEmprestimos extends javax.swing.JFrame {
             
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             sdf.setLenient(false);
+            
+            if(this.tableEmprestimos.getSelectedRow() == -1) {
+                throw new Mensagens("Primeiro, selecione um empréstimo para editar.");
+            } else {
+                id = Integer.parseInt(this.tableEmprestimos.getValueAt(this.tableEmprestimos.getSelectedRow(), 0).toString());
+            }
             
             if (Integer.parseInt(this.campoAmigo.getText()) < 0 || Integer.parseInt(this.campoFerramenta.getText()) < 0) {
                 throw new Mensagens("ID deve ser um número positivo.");
@@ -307,7 +314,8 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                 }
             }
             
-            Emprestimo objeto = new Emprestimo(amigoDAO.carregaAmigo(idAmigo),
+            Emprestimo objeto = new Emprestimo(id,
+                                            amigoDAO.carregaAmigo(idAmigo),
                                             ferramentaDAO.carregaFerramenta(idFerramenta),
                                                 dataEmprestimo,
                                                 dataDevolucao);
