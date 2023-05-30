@@ -270,7 +270,6 @@ public class TelaAmigos extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(rootPane, "Amigo alterado com sucesso!");
 
             }
-            System.out.println(this.amigoDAO.getMinhaLista().toString());
         } catch (Mensagens erro) {
             JOptionPane.showMessageDialog(null, erro.getMessage(), "Aviso", JOptionPane.WARNING_MESSAGE);
         } catch (NumberFormatException erro2) {
@@ -301,15 +300,31 @@ public class TelaAmigos extends javax.swing.JFrame {
                 telefone = Long.parseLong(this.campoTelefone.getText());
             }
             
-            // envia os dados para o Controlador cadastrar
-            if (this.amigoDAO.InsertAmigoBD(new Amigo(nome, telefone, quantEmprest))) {
-                JOptionPane.showMessageDialog(rootPane, "Amigo cadastrado com sucesso!");
+             ArrayList<Amigo> minhalista = amigoDAO.getMinhaLista();
 
-                // limpa campos da interface
+            for (Amigo a : minhalista) { // checa se o amigo ja está cadastrado
+                if(a.getNome().toLowerCase().equals(nome.toLowerCase()) && a.getTelefone() == telefone){
+                    throw new Mensagens("Esse amigo já está cadastrado!");
+                }
+                else if(a.getNome().toLowerCase().equals(nome.toLowerCase()) && a.getTelefone() != telefone){
+                    int resposta = JOptionPane.showConfirmDialog(rootPane, nome+" já está cadastrado.\nDeseja atualizar o telefone?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                    if(resposta == JOptionPane.YES_OPTION) {
+                        if (this.amigoDAO.UpdateAmigoBD(new Amigo(a.getId(), nome, telefone))) {
+                            throw new Mensagens("Telefone atualizado!");
+                        }
+                    } else{
+                        throw new Mensagens("Cadastro cancelado!");
+                    }
+                }
+            } 
+                // envia os dados para o Controlador cadastrar
+                if (this.amigoDAO.InsertAmigoBD(new Amigo(nome, telefone, quantEmprest))) {
+                    JOptionPane.showMessageDialog(rootPane, "Amigo cadastrado com sucesso!");
+                }
+            
                 this.campoNome.setText("");
                 this.campoTelefone.setText("");
-            }
-
+            
         } catch (Mensagens | SQLException erro) {
             JOptionPane.showMessageDialog(null, erro.getMessage(), "Aviso", JOptionPane.WARNING_MESSAGE);
         } catch (NumberFormatException erro) {
