@@ -79,6 +79,22 @@ public class Emprestimo {
     public void setStatus(boolean status) {
         this.status = status;
     }
-    
+
+    @Override
+    public String toString() {
+        String pendencia;
+        if(this.isStatus()){
+            pendencia = "CONCLUIDO";
+        } else {
+            pendencia = "PENDENTE";
+        }
+        return "\n ID do empréstimo: " + this.getId()
+                + "\n Nome do amigo: " + this.getAmigo().getNome()
+                + "\n Nome da ferramenta: " + this.getFerramenta().getNome()
+                + "\n Data do empréstimo: " + this.getDataEmprestimo()
+                + "\n Data de devolução: " + this.getDataDevolucao()
+                + "\n Status: " + pendencia
+                + "\n -----------";
+    }    
     
 }
