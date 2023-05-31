@@ -255,7 +255,7 @@ public class TelaAmigos extends javax.swing.JFrame {
                 telefone = Long.parseLong(this.campoTelefone.getText());
             }
             
-             ArrayList<Amigo> minhalista = amigoDAO.getMinhaLista();
+            ArrayList<Amigo> minhalista = amigoDAO.getMinhaLista();
             if (this.tableAmigo.getSelectedRow() == -1) {
                 throw new Mensagens("Primeiro, selecione um amigo para alterar");
             } else {

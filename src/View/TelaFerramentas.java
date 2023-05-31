@@ -403,12 +403,28 @@ public class TelaFerramentas extends javax.swing.JFrame {
             } else {
                 custoAquisicao = Double.parseDouble(this.campoCusto.getText());
             }
-
+            
+            ArrayList<Ferramenta> minhalista = ferramentaDAO.getMinhaLista();
             if (this.tableFerramenta.getSelectedRow() == -1) {
                 throw new Mensagens("Primeiro, selecione uma ferramenta para alterar");
             } else {
                 id = Integer.parseInt(this.tableFerramenta.getValueAt(this.tableFerramenta.getSelectedRow(), 0).toString());
             }
+            
+            for (Ferramenta f : minhalista) { // checa se essas informações já estão cadastradas
+                if(f.getNome().toLowerCase().equals(nome.toLowerCase()) && f.getMarca().toLowerCase().equals(marca.toLowerCase()) && f.getId() != id){
+                    int resposta = JOptionPane.showConfirmDialog(rootPane, "Já existe uma ferramenta com o mesmo nome e marca.\nDeseja mesmo continuar?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                    if(resposta == JOptionPane.NO_OPTION) {
+                        throw new Mensagens("Edição cancelada!");
+                    }
+                } 
+                else if(f.getNome().toLowerCase().equals(nome.toLowerCase()) && f.getId() != id){
+                    int resposta = JOptionPane.showConfirmDialog(rootPane, "Foi encontrada outra ferramenta com este nome.\nDeseja mesmo continuar?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                    if(resposta == JOptionPane.NO_OPTION) {
+                        throw new Mensagens("Edição cancelada!");
+                    }
+                }
+            } 
 
             // envia os dados para a Ferramenta processar
             if (this.ferramentaDAO.UpdateFerramentaBD(new Ferramenta(id, nome, marca, custoAquisicao))) {
