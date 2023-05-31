@@ -397,7 +397,7 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                 Emprestimo emprestimoPendente = emprestimoDAO.carregaEmprestimo(idEmprestimo);
                 String nome = emprestimoPendente.getAmigo().getNome();
                 
-                if(emprestimoPendente.getDataEmprestimo().getTime() > dataDevolucao.getTime()){
+                if(dataDevolucao == null || emprestimoPendente.getDataEmprestimo().getTime() < dataDevolucao.getTime()){
                     throw new Mensagens("Esta ferramenta ainda não foi devolvida por " + nome);
                 }
             } else {
