@@ -198,20 +198,20 @@ public class FerramentaDAO {
     }
     
     public int amigoComFerramenta(int id) { // disponibilidade da ferramenta
-        int idAmigo = 0;
+        int idEmprestimo = 0;
         
         try {
             Statement stmt = this.getConexao().createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT fk_amigo FROM tb_emprestimos WHERE fk_ferramenta = " + id + " AND status = false");
+            ResultSet rs = stmt.executeQuery("SELECT id_emprestimo FROM tb_emprestimos WHERE fk_ferramenta = " + id + " AND status = false");
             
             if(rs.next()){
-                idAmigo = rs.getInt("fk_amigo"); // retorna id do amigo com ferramenta pendente
+                idEmprestimo = rs.getInt("id_emprestimo"); // retorna id do amigo com ferramenta pendente
             }
             
         } catch (SQLException erro) {
             throw new RuntimeException(erro);
         }
         
-        return idAmigo;
+        return idEmprestimo;
     }
 }
