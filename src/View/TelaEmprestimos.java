@@ -360,26 +360,6 @@ public class TelaEmprestimos extends javax.swing.JFrame {
             } else{
                 idAmigo = Integer.parseInt(this.campoAmigo.getText());
                 idFerramenta = Integer.parseInt(this.campoFerramenta.getText());
-                
-                if(emprestimoDAO.amigoPendente(idAmigo) > 0){ // verifica pendencias do amigo
-                    int ferramentaPendente = emprestimoDAO.amigoPendente(idAmigo); // retorna id da ferramenta pendente
-                    
-                    String nome = amigoDAO.carregaAmigo(idAmigo).getNome();
-                    String ferramenta = ferramentaDAO.carregaFerramenta(ferramentaPendente).getNome();
-                    
-                    int resposta = JOptionPane.showConfirmDialog(rootPane, nome+" ainda não devolveu a(o) "+ferramenta+ "\nTem certeza que deseja continuar?", "Confirmação", JOptionPane.YES_NO_OPTION);
-                    
-                    if(resposta == JOptionPane.NO_OPTION) {
-                        throw new Mensagens("Empréstimo cancelado!");
-                    } 
-                } else if (ferramentaDAO.amigoComFerramenta(idFerramenta) > 0) { // verifica disponibilidade da ferramenta
-                    String nome = amigoDAO.carregaAmigo(ferramentaDAO.amigoComFerramenta(idFerramenta)).getNome();
-                    
-                    throw new Mensagens("Esta ferramenta ainda não foi devolvida por " + nome);
-                } else {
-                    idAmigo = Integer.parseInt(this.campoAmigo.getText());
-                    idFerramenta = Integer.parseInt(this.campoFerramenta.getText());
-                }
             }   
             
             if(this.campoDataPed.getText().contains("_")) {
@@ -400,6 +380,31 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                 }
             }
             
+            if(emprestimoDAO.amigoPendente(idAmigo) > 0){ // verifica pendencias do amigo
+                int ferramentaPendente = emprestimoDAO.amigoPendente(idAmigo); // retorna id da ferramenta pendente
+
+                String nome = amigoDAO.carregaAmigo(idAmigo).getNome();
+                String ferramenta = ferramentaDAO.carregaFerramenta(ferramentaPendente).getNome();
+
+                int resposta = JOptionPane.showConfirmDialog(rootPane, nome+" ainda não devolveu a(o) "+ferramenta+ "\nTem certeza que deseja continuar?", "Confirmação", JOptionPane.YES_NO_OPTION);
+
+                if(resposta == JOptionPane.NO_OPTION) {
+                    throw new Mensagens("Empréstimo cancelado!");
+                }
+                
+            } else if (ferramentaDAO.amigoComFerramenta(idFerramenta) > 0) { // verifica disponibilidade da ferramenta
+                int idEmprestimo = ferramentaDAO.amigoComFerramenta(idFerramenta);
+                Emprestimo emprestimoPendente = emprestimoDAO.carregaEmprestimo(idEmprestimo);
+                String nome = emprestimoPendente.getAmigo().getNome();
+                
+                if(emprestimoPendente.getDataEmprestimo().getTime() > dataDevolucao.getTime()){
+                    throw new Mensagens("Esta ferramenta ainda não foi devolvida por " + nome);
+                }
+            } else {
+                idAmigo = Integer.parseInt(this.campoAmigo.getText());
+                idFerramenta = Integer.parseInt(this.campoFerramenta.getText());
+            }
+
             Emprestimo objeto = new Emprestimo(amigoDAO.carregaAmigo(idAmigo),
                                             ferramentaDAO.carregaFerramenta(idFerramenta),
                                                 dataEmprestimo,
@@ -437,7 +442,7 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                 throw new Mensagens("Primeiro, selecione um empréstimo para remover");
             } else {
                 id = Integer.parseInt(this.tableEmprestimos.getValueAt(this.tableEmprestimos.getSelectedRow(), 0).toString());
-                idAmigo = Integer.parseInt(this.tableEmprestimos.getValueAt(this.tableEmprestimos.getSelectedRow(), 1).toString());
+                idAmigo = emprestimoDAO.carregaEmprestimo(id).getAmigo().getId();
             }
             
             int resposta = JOptionPane.showConfirmDialog(rootPane, "Tem certeza que deseja remover este empréstimo?", "Confirmação", JOptionPane.YES_NO_OPTION);
@@ -446,7 +451,7 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                 this.amigoDAO.UpdateQtdEmprest(idAmigo);
                 JOptionPane.showMessageDialog(rootPane, "Empréstimo removido com sucesso!");
             }
-        } catch (Mensagens erro) {
+        } catch (Mensagens | SQLException erro) {
             JOptionPane.showMessageDialog(null, erro.getMessage(), "Aviso", JOptionPane.WARNING_MESSAGE);
         } finally {
             carregaTabela();
