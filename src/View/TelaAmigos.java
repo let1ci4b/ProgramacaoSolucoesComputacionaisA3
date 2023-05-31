@@ -254,12 +254,28 @@ public class TelaAmigos extends javax.swing.JFrame {
             } else {
                 telefone = Long.parseLong(this.campoTelefone.getText());
             }
-
+            
+             ArrayList<Amigo> minhalista = amigoDAO.getMinhaLista();
             if (this.tableAmigo.getSelectedRow() == -1) {
                 throw new Mensagens("Primeiro, selecione um amigo para alterar");
             } else {
                 id = Integer.parseInt(this.tableAmigo.getValueAt(this.tableAmigo.getSelectedRow(), 0).toString());
             }
+            
+            for (Amigo a : minhalista) { // checa se essas informações já estão cadastradas
+                if(a.getNome().toLowerCase().equals(nome.toLowerCase()) && a.getTelefone() == telefone){
+                    throw new Mensagens("Esse amigo já está cadastrado!");
+                    } 
+                else if(a.getTelefone() == telefone && a.getId() != id){
+                    throw new Mensagens("Esse telefone já está cadastrado!");
+                }
+                else if(a.getNome().toLowerCase().equals(nome.toLowerCase()) && a.getId() != id){
+                    int resposta = JOptionPane.showConfirmDialog(rootPane, "Já existe um amigo com esse nome.\n Deseja mesmo continuar?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                    if(resposta == JOptionPane.NO_OPTION) {
+                        throw new Mensagens("Edição cancelada!");
+                    }
+                }
+            } 
 
             // envia os dados para o Amigo processar
             if (this.amigoDAO.UpdateAmigoBD(new Amigo(id, nome, telefone))) {
@@ -300,7 +316,7 @@ public class TelaAmigos extends javax.swing.JFrame {
                 telefone = Long.parseLong(this.campoTelefone.getText());
             }
             
-             ArrayList<Amigo> minhalista = amigoDAO.getMinhaLista();
+            ArrayList<Amigo> minhalista = amigoDAO.getMinhaLista();
 
             for (Amigo a : minhalista) { // checa se o amigo ja está cadastrado
                 if(a.getNome().toLowerCase().equals(nome.toLowerCase()) && a.getTelefone() == telefone){
