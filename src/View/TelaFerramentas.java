@@ -410,13 +410,13 @@ public class TelaFerramentas extends javax.swing.JFrame {
             }
             
             for (Ferramenta f : minhalista) { // checa se essas informações já estão cadastradas
-                if(f.getNome().toLowerCase().equals(nome.toLowerCase()) && f.getMarca().toLowerCase().equals(marca.toLowerCase()) && f.getId() != id){
+                if(f.getNome().equalsIgnoreCase(nome) && f.getMarca().equalsIgnoreCase(marca) && f.getId() != id){
                     int resposta = JOptionPane.showConfirmDialog(rootPane, "Já existe uma ferramenta com o mesmo nome e marca.\nDeseja mesmo continuar?", "Confirmação", JOptionPane.YES_NO_OPTION);
                     if(resposta == JOptionPane.NO_OPTION) {
                         throw new Mensagens("Edição cancelada!");
                     }
                 } 
-                else if(f.getNome().toLowerCase().equals(nome.toLowerCase()) && f.getId() != id){
+                else if(f.getNome().equalsIgnoreCase(nome) && f.getId() != id){
                     int resposta = JOptionPane.showConfirmDialog(rootPane, "Foi encontrada outra ferramenta com este nome.\nDeseja mesmo continuar?", "Confirmação", JOptionPane.YES_NO_OPTION);
                     if(resposta == JOptionPane.NO_OPTION) {
                         throw new Mensagens("Edição cancelada!");

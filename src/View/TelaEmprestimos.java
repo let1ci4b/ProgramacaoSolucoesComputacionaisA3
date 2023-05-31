@@ -312,6 +312,17 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                 }
             }
             
+                ArrayList<Emprestimo> minhalista = emprestimoDAO.getMinhaLista();
+            
+            for (Emprestimo e : minhalista) { // checa se essas informações já estão cadastradas
+                System.out.println(e.getDataEmprestimo());
+                System.out.println(dataEmprestimo);
+                if(e.getAmigo().getId() == idAmigo && e.getFerramenta().getId() == idFerramenta && e.getDataEmprestimo().getTime() == dataEmprestimo.getTime() && e.getId() != id){
+                    throw new Mensagens("Esse empréstimo já está cadastrado!");
+                    
+                } 
+            } 
+            
             Emprestimo objeto = new Emprestimo(id,
                                             amigoDAO.carregaAmigo(idAmigo),
                                             ferramentaDAO.carregaFerramenta(idFerramenta),

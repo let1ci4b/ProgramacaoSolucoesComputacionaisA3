@@ -263,13 +263,13 @@ public class TelaAmigos extends javax.swing.JFrame {
             }
             
             for (Amigo a : minhalista) { // checa se essas informações já estão cadastradas
-                if(a.getNome().toLowerCase().equals(nome.toLowerCase()) && a.getTelefone() == telefone){
+                if(a.getNome().equalsIgnoreCase(nome) && a.getTelefone() == telefone){
                     throw new Mensagens("Esse amigo já está cadastrado!");
                     } 
                 else if(a.getTelefone() == telefone && a.getId() != id){
                     throw new Mensagens("Esse telefone já está cadastrado!");
                 }
-                else if(a.getNome().toLowerCase().equals(nome.toLowerCase()) && a.getId() != id){
+                else if(a.getNome().equalsIgnoreCase(nome) && a.getId() != id){
                     int resposta = JOptionPane.showConfirmDialog(rootPane, "Já existe um amigo com esse nome.\n Deseja mesmo continuar?", "Confirmação", JOptionPane.YES_NO_OPTION);
                     if(resposta == JOptionPane.NO_OPTION) {
                         throw new Mensagens("Edição cancelada!");
@@ -319,10 +319,10 @@ public class TelaAmigos extends javax.swing.JFrame {
             ArrayList<Amigo> minhalista = amigoDAO.getMinhaLista();
 
             for (Amigo a : minhalista) { // checa se o amigo ja está cadastrado
-                if(a.getNome().toLowerCase().equals(nome.toLowerCase()) && a.getTelefone() == telefone){
+                if(a.getNome().equalsIgnoreCase(nome) && a.getTelefone() == telefone){
                     throw new Mensagens("Esse amigo já está cadastrado!");
                 }
-                else if(a.getNome().toLowerCase().equals(nome.toLowerCase()) && a.getTelefone() != telefone){
+                else if(a.getNome().equalsIgnoreCase(nome) && a.getTelefone() != telefone){
                     int resposta = JOptionPane.showConfirmDialog(rootPane, nome+" já está cadastrado.\nDeseja atualizar o telefone?", "Confirmação", JOptionPane.YES_NO_OPTION);
                     if(resposta == JOptionPane.YES_OPTION) {
                         if (this.amigoDAO.UpdateAmigoBD(new Amigo(a.getId(), nome, telefone))) {
