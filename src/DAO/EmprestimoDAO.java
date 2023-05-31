@@ -145,6 +145,33 @@ public class EmprestimoDAO {
 
     }
     
+    public Emprestimo carregaEmprestimo(int id) throws SQLException{
+        Emprestimo objeto = new Emprestimo();
+        objeto.setId(id);
+        
+        try {
+            Statement stmt = this.getConexao().createStatement();
+            ResultSet res = stmt.executeQuery("SELECT * FROM tb_emprestimos WHERE id_emprestimo = " + id );
+            res.next();
+
+            objeto.setAmigo(amigoDAO.carregaAmigo(res.getInt("fk_amigo")));
+            objeto.setFerramenta(ferramentaDAO.carregaFerramenta(res.getInt("fk_ferramenta")));
+            objeto.setDataEmprestimo(res.getDate("data_emprestimo"));
+            objeto.setDataDevolucao(res.getDate("data_devolucao"));
+            objeto.setStatus(res.getBoolean("status"));
+
+            stmt.close();            
+            
+        } catch (SQLException erro) {
+            if(erro.getSQLState().equals("S1000")){
+                throw new SQLException("ID de Emprestimo inexistente.");
+            }
+            throw new RuntimeException("Erro de execução no SQL código " + erro.getSQLState());
+        }
+        
+        return objeto;
+    }
+    
     public int amigoPendente(int idAmigo){ // verifica se o amigo não devolveu uma ferramenta
         int idFerramenta = 0;
                 
