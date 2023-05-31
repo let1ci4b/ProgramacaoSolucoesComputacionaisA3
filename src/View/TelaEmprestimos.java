@@ -327,7 +327,7 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(rootPane, "Empréstimo alterado com sucesso!");
 
             }
-            System.out.println(this.emprestimoDAO.getMinhaLista().toString());
+            
         } catch (Mensagens | SQLException erro) {
             JOptionPane.showMessageDialog(null, erro.getMessage(), "Aviso", JOptionPane.WARNING_MESSAGE);
         } catch (NumberFormatException erro) {

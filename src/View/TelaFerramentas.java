@@ -336,8 +336,6 @@ public class TelaFerramentas extends javax.swing.JFrame {
                 }
             }
 
-            System.out.println(this.ferramentaDAO.getMinhaLista().toString());
-
         } catch (Mensagens erro) {
             JOptionPane.showMessageDialog(null, erro.getMessage(), "Aviso", JOptionPane.WARNING_MESSAGE);
         } catch (NumberFormatException erro) {
