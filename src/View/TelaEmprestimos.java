@@ -322,13 +322,19 @@ public class TelaEmprestimos extends javax.swing.JFrame {
             
             //Emprestimo emprestimoPendente = emprestimoDAO.carregaEmprestimo(ferramentaDAO.amigoComFerramenta(idFerramenta)); --- arrumar depois
             
-            if(dataDevolucao == null) {
-                if (ferramentaDAO.amigoComFerramenta(idFerramenta) > 0) {
-                    throw new Mensagens("A ferramenta que você está tentando inserir está em um empréstimo pendente!");
-                } else if (emprestimoDAO.amigoPendente(idAmigo) > 0) {
-                    throw new Mensagens("O amigo que você está tentando inserir possui pendências ativas!");
+            if (ferramentaDAO.amigoComFerramenta(idFerramenta) > 0) {
+                throw new Mensagens("A ferramenta que você está tentando inserir está em um empréstimo pendente!");
+            } else if (emprestimoDAO.amigoPendente(idAmigo) > 0) {
+                String nome = amigoDAO.carregaAmigo(idAmigo).getNome();
+
+                int resposta = JOptionPane.showConfirmDialog(rootPane, nome+" possui pendências ativas!\nTem certeza que deseja continuar?", "Confirmação", JOptionPane.YES_NO_OPTION);
+
+                if(resposta == JOptionPane.NO_OPTION) {
+                    throw new Mensagens("Empréstimo cancelado!");
                 } 
-            } /*else if (emprestimoDAO.carregaEmprestimo(ferramentaDAO.amigoComFerramenta(idFerramenta)).getDataEmprestimo().compareTo(dataDevolucao) < 0) {
+            } 
+            
+            /*else if (emprestimoDAO.carregaEmprestimo(ferramentaDAO.amigoComFerramenta(idFerramenta)).getDataEmprestimo().compareTo(dataDevolucao) < 0) {
                 throw new Mensagens("Data de devolução está a frente do empréstimo pendente da ferramenta");
             }*/
             
