@@ -342,8 +342,8 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                 // limpa os campos
                 this.campoAmigo.setText("");
                 this.campoFerramenta.setText("");
-                this.campoDataPed.setText("");
-                this.campoDataDev.setText("");
+                this.campoDataPed.setValue(null);
+                this.campoDataDev.setValue(null);
                 JOptionPane.showMessageDialog(rootPane, "Empréstimo alterado com sucesso!");
 
             }
