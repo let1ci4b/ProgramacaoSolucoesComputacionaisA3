@@ -319,24 +319,29 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                     throw new Mensagens("Esse empréstimo já está cadastrado!");
                 }
             }
-            
-            //Emprestimo emprestimoPendente = emprestimoDAO.carregaEmprestimo(ferramentaDAO.amigoComFerramenta(idFerramenta)); --- arrumar depois
-            
+                        
             if (ferramentaDAO.amigoComFerramenta(idFerramenta) > 0) {
-                throw new Mensagens("A ferramenta que você está tentando inserir está em um empréstimo pendente!");
+                Emprestimo e = emprestimoDAO.carregaEmprestimo(ferramentaDAO.amigoComFerramenta(idFerramenta));
+                
+                if(!(e.getAmigo().getId() == idAmigo && e.getFerramenta().getId() == idFerramenta && e.getDataEmprestimo().getTime() == dataEmprestimo.getTime())) {
+                    throw new Mensagens("A ferramenta que você está tentando inserir está em um empréstimo pendente!");
+                } else if (emprestimoDAO.carregaEmprestimo(ferramentaDAO.amigoComFerramenta(idFerramenta)).getDataEmprestimo().compareTo(dataDevolucao) < 0) {
+                    throw new Mensagens("Data de devolução está a frente do empréstimo pendente da ferramenta");
+                }
             } else if (emprestimoDAO.amigoPendente(idAmigo) > 0) {
-                String nome = amigoDAO.carregaAmigo(idAmigo).getNome();
+                int ferramentaPendente = emprestimoDAO.amigoPendente(idAmigo);
 
-                int resposta = JOptionPane.showConfirmDialog(rootPane, nome+" possui pendências ativas!\nTem certeza que deseja continuar?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                String nome = amigoDAO.carregaAmigo(idAmigo).getNome();
+                String ferramenta = ferramentaDAO.carregaFerramenta(ferramentaPendente).getNome();
+
+                int resposta = JOptionPane.showConfirmDialog(rootPane, nome+" ainda não devolveu a(o) "+ferramenta+ "\nTem certeza que deseja continuar?", "Confirmação", JOptionPane.YES_NO_OPTION);
 
                 if(resposta == JOptionPane.NO_OPTION) {
                     throw new Mensagens("Empréstimo cancelado!");
                 }
             } 
             
-            /*else if (emprestimoDAO.carregaEmprestimo(ferramentaDAO.amigoComFerramenta(idFerramenta)).getDataEmprestimo().compareTo(dataDevolucao) < 0) {
-                throw new Mensagens("Data de devolução está a frente do empréstimo pendente da ferramenta");
-            }*/
+            
             
             Emprestimo objeto = new Emprestimo(id,
                                             amigoDAO.carregaAmigo(idAmigo),
@@ -423,7 +428,7 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                 Emprestimo emprestimoPendente = emprestimoDAO.carregaEmprestimo(idEmprestimo);
                 String nome = emprestimoPendente.getAmigo().getNome();
                 
-                if(dataDevolucao == null || emprestimoPendente.getDataEmprestimo().getTime() < dataDevolucao.getTime()){
+                if(dataDevolucao == null || dataDevolucao.compareTo(emprestimoPendente.getDataEmprestimo()) == 1){
                     throw new Mensagens("Esta ferramenta ainda não foi devolvida por " + nome);
                 }
             } else {
@@ -434,8 +439,6 @@ public class TelaEmprestimos extends javax.swing.JFrame {
             ArrayList<Emprestimo> minhalista = emprestimoDAO.getMinhaLista();
             
             for (Emprestimo e : minhalista) { // checa se essas informações já estão cadastradas
-                System.out.println(e.getDataEmprestimo());
-                System.out.println(dataEmprestimo);
                 if(e.getAmigo().getId() == idAmigo && e.getFerramenta().getId() == idFerramenta && e.getDataEmprestimo().getTime() == dataEmprestimo.getTime()){
                     throw new Mensagens("Esse empréstimo já está cadastrado!");
                 }
