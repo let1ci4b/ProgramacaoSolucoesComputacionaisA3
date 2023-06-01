@@ -312,16 +312,25 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                 }
             }
             
-                ArrayList<Emprestimo> minhalista = emprestimoDAO.getMinhaLista();
+            ArrayList<Emprestimo> minhalista = emprestimoDAO.getMinhaLista();
             
             for (Emprestimo e : minhalista) { // checa se essas informações já estão cadastradas
-                System.out.println(e.getDataEmprestimo());
-                System.out.println(dataEmprestimo);
                 if(e.getAmigo().getId() == idAmigo && e.getFerramenta().getId() == idFerramenta && e.getDataEmprestimo().getTime() == dataEmprestimo.getTime() && e.getId() != id){
                     throw new Mensagens("Esse empréstimo já está cadastrado!");
-                    
+                }
+            }
+            
+            //Emprestimo emprestimoPendente = emprestimoDAO.carregaEmprestimo(ferramentaDAO.amigoComFerramenta(idFerramenta)); --- arrumar depois
+            
+            if(dataDevolucao == null) {
+                if (ferramentaDAO.amigoComFerramenta(idFerramenta) > 0) {
+                    throw new Mensagens("A ferramenta que você está tentando inserir está em um empréstimo pendente!");
+                } else if (emprestimoDAO.amigoPendente(idAmigo) > 0) {
+                    throw new Mensagens("O amigo que você está tentando inserir possui pendências ativas!");
                 } 
-            } 
+            } /*else if (emprestimoDAO.carregaEmprestimo(ferramentaDAO.amigoComFerramenta(idFerramenta)).getDataEmprestimo().compareTo(dataDevolucao) < 0) {
+                throw new Mensagens("Data de devolução está a frente do empréstimo pendente da ferramenta");
+            }*/
             
             Emprestimo objeto = new Emprestimo(id,
                                             amigoDAO.carregaAmigo(idAmigo),
@@ -416,6 +425,16 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                 idFerramenta = Integer.parseInt(this.campoFerramenta.getText());
             }
 
+            ArrayList<Emprestimo> minhalista = emprestimoDAO.getMinhaLista();
+            
+            for (Emprestimo e : minhalista) { // checa se essas informações já estão cadastradas
+                System.out.println(e.getDataEmprestimo());
+                System.out.println(dataEmprestimo);
+                if(e.getAmigo().getId() == idAmigo && e.getFerramenta().getId() == idFerramenta && e.getDataEmprestimo().getTime() == dataEmprestimo.getTime()){
+                    throw new Mensagens("Esse empréstimo já está cadastrado!");
+                }
+            } 
+            
             Emprestimo objeto = new Emprestimo(amigoDAO.carregaAmigo(idAmigo),
                                             ferramentaDAO.carregaFerramenta(idFerramenta),
                                                 dataEmprestimo,
@@ -482,12 +501,8 @@ public class TelaEmprestimos extends javax.swing.JFrame {
         ArrayList<Emprestimo> minhalista = emprestimoDAO.getMinhaLista();
 
         for (Emprestimo e : minhalista) {
-            String stt;
-            if(e.isStatus()){
-               stt = "concluído";
-            } else{
-               stt = "pendente";
-            }
+            String stt = e.isStatus() ? "concluído" : "pendente";
+
             modelo.addRow(new Object[]{
                 e.getId(),
                 e.getAmigo().getNome(),
