@@ -324,10 +324,12 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                 Emprestimo e = emprestimoDAO.carregaEmprestimo(ferramentaDAO.amigoComFerramenta(idFerramenta));
                 
                 if(!(e.getAmigo().getId() == idAmigo && e.getFerramenta().getId() == idFerramenta && e.getDataEmprestimo().getTime() == dataEmprestimo.getTime())) {
+                    if(e.getDataEmprestimo().compareTo(dataDevolucao) < 0 && e.getId() != id) {
+                        throw new Mensagens("A data de devolução se encontra a frente de um empréstimo pendente desta ferramenta!");
+                    }
                     throw new Mensagens("A ferramenta que você está tentando inserir está em um empréstimo pendente!");
-                } else if (emprestimoDAO.carregaEmprestimo(ferramentaDAO.amigoComFerramenta(idFerramenta)).getDataEmprestimo().compareTo(dataDevolucao) < 0) {
-                    throw new Mensagens("Data de devolução está a frente do empréstimo pendente da ferramenta");
                 }
+                
             } else if (emprestimoDAO.amigoPendente(idAmigo) > 0) {
                 int ferramentaPendente = emprestimoDAO.amigoPendente(idAmigo);
 
@@ -339,8 +341,7 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                 if(resposta == JOptionPane.NO_OPTION) {
                     throw new Mensagens("Empréstimo cancelado!");
                 }
-            } 
-            
+            }     
             
             
             Emprestimo objeto = new Emprestimo(id,
