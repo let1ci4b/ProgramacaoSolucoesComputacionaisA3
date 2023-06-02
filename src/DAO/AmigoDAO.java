@@ -164,6 +164,7 @@ public class AmigoDAO {
 
     }
     
+    // Atualiza quantidade de empréstimos dos amigos
     public boolean UpdateQtdEmprest(int id){
         
          String sql = "UPDATE tb_amigos SET qtd_emprestimos = ? WHERE id_amigo = ?";

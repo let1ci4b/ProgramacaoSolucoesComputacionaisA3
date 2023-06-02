@@ -423,6 +423,7 @@ public class TelaAmigos extends javax.swing.JFrame {
                 a.getTelefone(),
                 a.getQuantEmprest()
             });
+            amigoDAO.UpdateQtdEmprest(a.getId()); // atualiza a qtd de emprestimos de um amigo
         }
     }
     

@@ -42,7 +42,6 @@ public class TelaEmprestimos extends javax.swing.JFrame {
         this.amigoDAO = new AmigoDAO();
         this.ferramentaDAO = new FerramentaDAO();
         carregaTabela();
-        //amigoDAO.UpdateQtdEmprest(objeto);
     }
 
     /**
@@ -456,7 +455,7 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                 this.campoFerramenta.setText("");
                 this.campoDataPed.setValue(null);
                 this.campoDataDev.setValue(null);
-                amigoDAO.UpdateQtdEmprest(objeto.getAmigo().getId()); // atualiza a qtd de emprestimos de um amigo
+                
                 
                 JOptionPane.showMessageDialog(rootPane, "Empréstimo cadastrado com sucesso!");
             }
@@ -488,7 +487,6 @@ public class TelaEmprestimos extends javax.swing.JFrame {
             int resposta = JOptionPane.showConfirmDialog(rootPane, "Tem certeza que deseja remover este empréstimo?", "Confirmação", JOptionPane.YES_NO_OPTION);
             
             if(resposta == JOptionPane.YES_OPTION && this.emprestimoDAO.DeleteEmprestimoBD(id)) {
-                this.amigoDAO.UpdateQtdEmprest(idAmigo);
                 JOptionPane.showMessageDialog(rootPane, "Empréstimo removido com sucesso!");
             }
         } catch (Mensagens | SQLException erro) {
@@ -521,6 +519,7 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                 e.getDataDevolucao(),
                 stt
             });
+            amigoDAO.UpdateQtdEmprest(e.getAmigo().getId()); // atualiza a qtd de emprestimos de um amigo
         }
     }
     
