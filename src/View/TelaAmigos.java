@@ -270,9 +270,16 @@ public class TelaAmigos extends javax.swing.JFrame {
                     throw new Mensagens("Esse telefone já está cadastrado!");
                 }
                 else if(a.getNome().equalsIgnoreCase(nome) && a.getId() != id){
-                    int resposta = JOptionPane.showConfirmDialog(rootPane, "Já existe um amigo com esse nome.\n Deseja mesmo continuar?", "Confirmação", JOptionPane.YES_NO_OPTION);
-                    if(resposta == JOptionPane.NO_OPTION) {
-                        throw new Mensagens("Edição cancelada!");
+                    int resposta = JOptionPane.showConfirmDialog(rootPane, "Já existe um amigo com esse nome.\n Deseja atualizar o telefone?", "Confirmação", JOptionPane.YES_NO_OPTION);
+                    if(resposta == JOptionPane.YES_OPTION) {
+                        if (this.amigoDAO.UpdateAmigoBD(new Amigo(a.getId(), nome, telefone))) {
+                            // limpa os campos
+                            this.campoNome.setText("");
+                            this.campoTelefone.setText("");
+                            throw new Mensagens("Telefone atualizado!");
+                        } 
+                    }else{
+                        throw new Mensagens("Cadastro cancelado!");
                     }
                 }
             } 
@@ -280,10 +287,10 @@ public class TelaAmigos extends javax.swing.JFrame {
             // envia os dados para o Amigo processar
             if (this.amigoDAO.UpdateAmigoBD(new Amigo(id, nome, telefone))) {
 
+                JOptionPane.showMessageDialog(rootPane, "Amigo alterado com sucesso!");
                 // limpa os campos
                 this.campoNome.setText("");
                 this.campoTelefone.setText("");
-                JOptionPane.showMessageDialog(rootPane, "Amigo alterado com sucesso!");
 
             }
         } catch (Mensagens erro) {
@@ -326,6 +333,9 @@ public class TelaAmigos extends javax.swing.JFrame {
                     int resposta = JOptionPane.showConfirmDialog(rootPane, nome+" já está cadastrado.\nDeseja atualizar o telefone?", "Confirmação", JOptionPane.YES_NO_OPTION);
                     if(resposta == JOptionPane.YES_OPTION) {
                         if (this.amigoDAO.UpdateAmigoBD(new Amigo(a.getId(), nome, telefone))) {
+                            // limpa os campos
+                            this.campoNome.setText("");
+                            this.campoTelefone.setText("");
                             throw new Mensagens("Telefone atualizado!");
                         }
                     } else{
