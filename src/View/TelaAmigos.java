@@ -272,7 +272,9 @@ public class TelaAmigos extends javax.swing.JFrame {
                 else if(a.getNome().equalsIgnoreCase(nome) && a.getId() != id){
                     int resposta = JOptionPane.showConfirmDialog(rootPane, "Já existe um amigo com esse nome.\n Deseja atualizar o telefone?", "Confirmação", JOptionPane.YES_NO_OPTION);
                     if(resposta == JOptionPane.YES_OPTION) {
-                        if (this.amigoDAO.UpdateAmigoBD(new Amigo(a.getId(), nome, telefone))) {
+                        if(a.getTelefone() == telefone && a.getId() != id){
+                            throw new Mensagens("Esse telefone já está cadastrado!");
+                        } else if (this.amigoDAO.UpdateAmigoBD(new Amigo(a.getId(), nome, telefone))) {
                             // limpa os campos
                             this.campoNome.setText("");
                             this.campoTelefone.setText("");
