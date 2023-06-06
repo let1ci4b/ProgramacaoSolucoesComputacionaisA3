@@ -310,10 +310,12 @@ public class TelaEmprestimos extends javax.swing.JFrame {
                 Emprestimo e = emprestimoDAO.carregaEmprestimo(ferramentaDAO.amigoComFerramenta(idFerramenta));
                 
                 if(!(e.getAmigo().getId() == idAmigo && e.getFerramenta().getId() == idFerramenta && e.getDataEmprestimo().getTime() == dataEmprestimo.getTime())) {
-                    if(e.getDataEmprestimo().compareTo(dataDevolucao) < 0 && e.getId() != id) {
-                        throw new Mensagens("A data de devolução se encontra a frente de um empréstimo pendente desta ferramenta!");
+                    if(dataDevolucao != null && e.getDataEmprestimo().compareTo(dataDevolucao) == -1) {
+                        if (e.getId() != id) {
+                            throw new Mensagens("A data de devolução se encontra a frente de um empréstimo pendente desta ferramenta!");
+                        }
+                        throw new Mensagens("A ferramenta que você está tentando inserir está em um empréstimo pendente!");  
                     }
-                    throw new Mensagens("A ferramenta que você está tentando inserir está em um empréstimo pendente!");
                 }
                 
             } else if (emprestimoDAO.amigoPendente(idAmigo) > 0) {
@@ -321,7 +323,7 @@ public class TelaEmprestimos extends javax.swing.JFrame {
 
                 String nome = amigoDAO.carregaAmigo(idAmigo).getNome();
                 String ferramenta = ferramentaDAO.carregaFerramenta(ferramentaPendente).getNome();
-
+                
                 int resposta = JOptionPane.showConfirmDialog(rootPane, nome+" ainda não devolveu a(o) "+ferramenta+ "\nTem certeza que deseja continuar?", "Confirmação", JOptionPane.YES_NO_OPTION);
 
                 if(resposta == JOptionPane.NO_OPTION) {
