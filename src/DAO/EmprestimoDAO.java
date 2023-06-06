@@ -50,7 +50,7 @@ public class EmprestimoDAO {
             return null;
 
         } catch (SQLException e) {
-            System.out.println("Nao foi possivel conectar..." + e.getMessage());
+            System.out.println("Nao foi possivel conectar..." + e.getSQLState());
             return null;
         }
     }
@@ -80,6 +80,8 @@ public class EmprestimoDAO {
             
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            try { this.getConexao().close(); } catch (Exception e) { }
         }
         
         return MinhaLista;
@@ -105,6 +107,8 @@ public class EmprestimoDAO {
 
         } catch (SQLException erro) {
             throw new RuntimeException(erro);
+        } finally {
+            try { this.getConexao().close(); } catch (Exception e) { }
         }
 
     }
@@ -118,6 +122,8 @@ public class EmprestimoDAO {
             return true;
         } catch (SQLException erro) {
             throw new RuntimeException(erro);
+        } finally {
+            try { this.getConexao().close(); } catch (Exception e) { }
         }
     }
     
@@ -140,6 +146,8 @@ public class EmprestimoDAO {
 
         } catch (SQLException erro) {
             throw new RuntimeException(erro);
+        } finally {
+            try { this.getConexao().close(); } catch (Exception e) { }
         }
 
     }
@@ -166,6 +174,8 @@ public class EmprestimoDAO {
                 throw new SQLException("ID de Emprestimo inexistente.");
             }
             throw new RuntimeException("Erro de execução no SQL código " + erro.getSQLState());
+        } finally {
+            try { this.getConexao().close(); } catch (Exception e) { }
         }
         
         return objeto;
@@ -182,8 +192,13 @@ public class EmprestimoDAO {
                 idFerramenta = pdt.getInt("fk_ferramenta");
             }
             
+            stmt.close();
+            
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            try { this.getConexao().close(); } catch (Exception e) { }
+            try { this.getConexao().close(); } catch (Exception e) { }
         }
         
         return idFerramenta;

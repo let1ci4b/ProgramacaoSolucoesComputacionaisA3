@@ -77,6 +77,8 @@ public class AmigoDAO {
 
         } catch (SQLException erro) {
             throw new RuntimeException(erro);
+        } finally {
+            try { this.getConexao().close(); } catch (Exception e) { }
         }
 
         return MinhaLista;
@@ -96,6 +98,8 @@ public class AmigoDAO {
             
         } catch (SQLException erro) {
             throw new RuntimeException(erro);
+        } finally {
+            try { this.getConexao().close(); } catch (Exception e) { }
         }
         
         return qtd_Emprest;
@@ -122,6 +126,8 @@ public class AmigoDAO {
                 throw new SQLException("Telefone já está registrado.");
             }
             throw new RuntimeException(erro);
+        } finally {
+            try { this.getConexao().close(); } catch (Exception e) { }
         }
 
     }
@@ -137,6 +143,8 @@ public class AmigoDAO {
             
         } catch (SQLException erro) {
             throw new RuntimeException(erro);
+        } finally {
+            try { this.getConexao().close(); } catch (Exception e) { }
         }
     }
 
@@ -159,6 +167,8 @@ public class AmigoDAO {
 
         } catch (SQLException erro) {
             throw new RuntimeException(erro);
+        } finally {
+            try { this.getConexao().close(); } catch (Exception e) { }
         }
 
     }
@@ -181,6 +191,8 @@ public class AmigoDAO {
 
         } catch (SQLException erro) {
             throw new RuntimeException(erro);
+        } finally {
+            try { this.getConexao().close(); } catch (Exception e) { }
         }
         
     }
@@ -206,7 +218,10 @@ public class AmigoDAO {
                 throw new SQLException("ID de Amigo inexistente.");
             }
             throw new RuntimeException("Erro de execução no SQL código " + erro.getSQLState());
+        } finally {
+            try { this.getConexao().close(); } catch (Exception e) { }
         }
+        
         return objeto;
     }
     

@@ -76,6 +76,8 @@ public class FerramentaDAO {
             stmt.close();
 
         } catch (SQLException ex) {
+        } finally {
+            try { this.getConexao().close(); } catch (Exception e) { }
         }
 
         return MinhaLista;
@@ -98,6 +100,8 @@ public class FerramentaDAO {
 
         } catch (SQLException erro) {
             throw new RuntimeException(erro);
+        } finally {
+            try { this.getConexao().close(); } catch (Exception e) { }
         }
 
     }
@@ -110,6 +114,8 @@ public class FerramentaDAO {
             
         } catch (SQLException erro) {
             throw new RuntimeException(erro);
+        } finally {
+            try { this.getConexao().close(); } catch (Exception e) { }
         }
         
         return true;
@@ -135,6 +141,8 @@ public class FerramentaDAO {
 
         } catch (SQLException erro) {
             throw new RuntimeException(erro);
+        } finally {
+            try { this.getConexao().close(); } catch (Exception e) { }
         }
 
     }
@@ -159,7 +167,10 @@ public class FerramentaDAO {
                 throw new SQLException("ID de Ferramenta inexistente.");
             }
             throw new RuntimeException("Erro de execução no SQL código " + erro.getSQLState());
+        } finally {
+            try { this.getConexao().close(); } catch (Exception e) { }
         }
+        
         return objeto;
     }
     
@@ -176,6 +187,8 @@ public class FerramentaDAO {
             
         } catch (SQLException erro) {
             throw new RuntimeException(erro);
+        } finally {
+            try { this.getConexao().close(); } catch (Exception e) { }
         }
         
         return contadorCusto;
@@ -184,14 +197,15 @@ public class FerramentaDAO {
     public boolean FerramentaExistenteDB(String nome) throws SQLException {
         
         try {
-            
             Statement stmt = this.getConexao().createStatement();
             ResultSet rs = stmt.executeQuery("SELECT nome FROM tb_ferramentas WHERE nome = '" + nome + "'");
-            
+
             return rs.next();
             
         } catch (SQLException erro) {
             throw new SQLException(erro);
+        } finally {
+            try { this.getConexao().close(); } catch (Exception e) { }
         }
         
     }
@@ -207,8 +221,12 @@ public class FerramentaDAO {
                 idEmprestimo = rs.getInt("id_emprestimo"); // retorna id do amigo com ferramenta pendente
             }
             
+            stmt.close();
+            
         } catch (SQLException erro) {
             throw new RuntimeException(erro);
+        } finally {
+            try { this.getConexao().close(); } catch (Exception e) { }
         }
         
         return idEmprestimo;
