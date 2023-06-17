@@ -65,7 +65,7 @@ Celular: (48) 99173-2599
 
 ### 🎲 Banco de dados:
 
-#### [GitHub - Scripts SQL](ScriptSQL)
+#### [GitHub - Scripts SQL](ScriptsSQL/scripts.sql)
 
 #
 
